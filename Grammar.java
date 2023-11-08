@@ -11,28 +11,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 // reads grammar file, builds HashMap of non-terminal symbols to production
 public class Grammar {
-	private static final String grammar = "grammar.txt";
+	private static final String filename = "grammar.txt";
 	private static HashMap<Nonterminal, LinkedList<Nonterminal>> map = new HashMap<>();
 	private static boolean debugGrammar = true;
-
-	// Default Constructor
+ 
+	/**
+	 * Default Constructor
+	 */
 	public Grammar() {
+		parseGrammar();
 	}
 
 	/**
-	 * Main method
-	 * 
-	 * @param args (not used here)
+	 * Parses Grammar file to initialize HashMap containing productions
 	 */
-	public static void main(String[] args) {
+	private static void parseGrammar() {
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(new File(grammar));
+			scanner = new Scanner(new File(filename));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -65,6 +65,7 @@ public class Grammar {
 				}
 			}
 			System.out.println();
+			
 			if (debugGrammar) {
 				System.out.print(symbol + " ::= ");
 				for (int i = 0; i < list.size(); i++) {
@@ -72,5 +73,15 @@ public class Grammar {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Main method
+	 * 
+	 * @param args (not used here)
+	 */
+	public static void main(String[] args) {
+		Grammar grammar = new Grammar();
+		System.out.println("\nHashMap contains " + grammar.map.size() + " grammar productions.");
 	}
 }
