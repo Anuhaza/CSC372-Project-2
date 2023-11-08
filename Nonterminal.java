@@ -6,9 +6,22 @@
  * Description: This file contains the Nonterminal symbol class. 
  */
 public class Nonterminal {
+	private String symbol;
 
-	public Nonterminal() {
-		// TODO Auto-generated constructor stub
+	/**
+	 * Constructor
+	 * 
+	 * @param symbol, the string symbol
+	 */
+	public Nonterminal(String symbol) {
+		this.symbol = symbol;
+	}
+	
+	/**
+	 * Returns the String representation of the non-terminal symbol
+	 */
+	public String toString() {
+		return symbol;
 	}
 
 }

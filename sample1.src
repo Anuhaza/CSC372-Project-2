@@ -1,0 +1,5 @@
+: This code generates sum of two integers
+int x -> 3
+int y -> 2
+: calculate sum
+int sum -> x add y

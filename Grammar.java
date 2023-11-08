@@ -9,11 +9,16 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 // reads grammar file, builds HashMap of non-terminal symbols to production
 public class Grammar {
 	private static final String grammar = "grammar.txt";
+	private static HashMap<Nonterminal, LinkedList<Nonterminal>> map = new HashMap<>();
+	private static boolean debugGrammar = true;
 
 	// Default Constructor
 	public Grammar() {
@@ -34,15 +39,38 @@ public class Grammar {
 
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
-			System.out.println(line);
 
 			String[] tokens = line.split(" ");
-			System.out.println("Production for Nonterminal Symbol: " + tokens[0] + " is:");
+			LinkedList<Nonterminal> list = new LinkedList<>();
+			Nonterminal symbol = null;
+
+			if (!tokens[1].equals("::=")) {
+				System.out.println("Error in grammar file. Aborting!");
+				return;
+			}
+
 			for (int i = 0; i < tokens.length; i++) {
-				System.out.print(tokens[i] + " ");
+
+				if (!tokens[i].equals("::=")) {
+					if (i == 0) {
+						// non-terminal symbol definition
+						symbol = new Nonterminal(tokens[i]);
+						map.put(symbol, list);
+					} else {
+
+						// add to LinkedList
+						list.add(new Nonterminal(tokens[i]));
+					}
+
+				}
 			}
 			System.out.println();
-			System.out.println();
+			if (debugGrammar) {
+				System.out.print(symbol + " ::= ");
+				for (int i = 0; i < list.size(); i++) {
+					System.out.print("Q[" + i + "]:" + list.get(i) + " ");
+				}
+			}
 		}
 	}
 }
