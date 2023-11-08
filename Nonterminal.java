@@ -9,7 +9,7 @@ public class Nonterminal {
 	private String symbol;
 
 	/**
-	 * Constructor
+	 * Default Constructor
 	 * 
 	 * @param symbol, the string symbol
 	 */

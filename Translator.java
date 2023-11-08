@@ -1,8 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 /*
  * AUTHORS: Anisha Munjal, Anupama Hazarika, Jenan Meri
  * FILE: Grammar.java
@@ -11,12 +6,20 @@ import java.util.Scanner;
  * Description: This file contains the grammar class. It reads the grammar 
  * file and builds HashMap of non-terminal symbols to production
  */
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Translator {
 	private static Grammar grammar = new Grammar();
 	private static ArrayList<String> sourceFiles = new ArrayList<>();
 
+	/**
+	 * Default constructor
+	 */
 	public Translator() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/**
@@ -32,8 +35,6 @@ public class Translator {
 			e.printStackTrace();
 		}
 
-		
-
 		while (scanner.hasNext()) {
 			String output = "";
 			String line = scanner.nextLine();
@@ -43,12 +44,34 @@ public class Translator {
 			String[] tokens = line.split(" ");
 			if (tokens[0].equals("int")) {
 				System.out.println(grammar.getMap().get("<intstmt>"));
-				output += tokens[0];
 			}
 
 			for (int i = 0; i < tokens.length; i++) {
 				System.out.print("T[" + i + "] = " + tokens[i] + ", ");
+				
+				if (tokens[i].equals("->")) {
+					output += "= ";
+					continue;
+				}
+				if (tokens[i].equals("add")) {
+					output += "+ ";
+					continue;
+				}
+				if (tokens[i].equals("sub")) {
+					output += "- ";
+					continue;
+				}
+				if (tokens[i].equals("div")) {
+					output += "/ ";
+					continue;
+				}
+				if (tokens[i].equals("mod")) {
+					output += "% ";
+					continue;
+				}
+				output += tokens[i] + " ";
 			}
+			output += ";";
 			System.out.println();
 			System.out.println("Translated output: " + output);
 		}
