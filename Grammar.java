@@ -16,20 +16,28 @@ import java.util.Scanner;
 // reads grammar file, builds HashMap of non-terminal symbols to production
 public class Grammar {
 	private static final String filename = "grammar.txt";
-	private static HashMap<Nonterminal, LinkedList<Nonterminal>> map = new HashMap<>();
+	private static HashMap<String, LinkedList<String>> map = new HashMap<>();
 	private static boolean debugGrammar = true;
  
 	/**
 	 * Default Constructor
 	 */
 	public Grammar() {
-		parseGrammar();
+		parse();
 	}
 
 	/**
+	 * Get Grammar HashMap
+	 * 
+	 * @return map, the Grammar HashMap
+	 */
+	public HashMap<String, LinkedList<String>> getMap() {
+		return map;
+	}
+	/**
 	 * Parses Grammar file to initialize HashMap containing productions
 	 */
-	private static void parseGrammar() {
+	private static void parse() {
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File(filename));
@@ -41,7 +49,7 @@ public class Grammar {
 			String line = scanner.nextLine();
 
 			String[] tokens = line.split(" ");
-			LinkedList<Nonterminal> list = new LinkedList<>();
+			LinkedList<String> list = new LinkedList<>();
 			Nonterminal symbol = null;
 
 			if (!tokens[1].equals("::=")) {
@@ -54,12 +62,11 @@ public class Grammar {
 				if (!tokens[i].equals("::=")) {
 					if (i == 0) {
 						// non-terminal symbol definition
-						symbol = new Nonterminal(tokens[i]);
-						map.put(symbol, list);
+						map.put(tokens[i], list);
 					} else {
 
 						// add to LinkedList
-						list.add(new Nonterminal(tokens[i]));
+						list.add(tokens[i]);
 					}
 
 				}
@@ -73,15 +80,5 @@ public class Grammar {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Main method
-	 * 
-	 * @param args (not used here)
-	 */
-	public static void main(String[] args) {
-		Grammar grammar = new Grammar();
-		System.out.println("\nHashMap contains " + grammar.map.size() + " grammar productions.");
 	}
 }
