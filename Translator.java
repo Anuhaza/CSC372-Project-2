@@ -52,13 +52,23 @@ public class Translator {
 			}
 
 			String[] tokens = line.split(" ");
-			if (tokens[0].equals("int")) {
-				outputStr += "\t\t";
-				System.out.println(grammar.getMap().get("<intstmt>"));
-			}
-
+			
 			for (int i = 0; i < tokens.length; i++) {
 				System.out.print("T[" + i + "] = " + tokens[i] + ", ");
+				
+				if (tokens[i].equals("int")) {
+					outputStr += "\t\t";
+					System.out.println(grammar.getMap().get("<intstmt>"));
+					outputStr += tokens[i] + " ";
+					continue;
+				}
+				
+				if (tokens[i].equals("dec")) {
+					outputStr += "\t\t";
+					System.out.println(grammar.getMap().get("<decstmt>"));
+					outputStr += "double" + " ";
+					continue;
+				}
 
 				if (tokens[i].equals("->")) {
 					outputStr += "= ";
@@ -93,7 +103,7 @@ public class Translator {
 	/**
 	 * Main method
 	 * 
-	 * @param args (not used here)
+	 * @param args (not used)
 	 */
 	public static void main(String[] args) {
 
@@ -101,6 +111,7 @@ public class Translator {
 
 		// List of sourcefiles to translate
 		sourceFiles.add("sample1.src");
+		sourceFiles.add("sample2.src");
 
 		for (String file : sourceFiles) {
 			String outputFileContents = parseSource(file);
