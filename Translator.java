@@ -1,3 +1,4 @@
+
 /*
  * AUTHORS: Anisha Munjal, Anupama Hazarika, Jenan Meri
  * FILE: Grammar.java
@@ -8,6 +9,8 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,9 +28,15 @@ public class Translator {
 	/**
 	 * Parses Source file to translate
 	 */
-	private static void parseSource(String filename) {
-		System.out.println("\nTranslating source file: " + filename);
+	private static String parseSource(String filename) {
+		String outputStr = "";
 		
+		outputStr += "public class ";
+		outputStr += filename.substring(0, filename.lastIndexOf('.')) + " {\n";
+		outputStr += "\n\tpublic static void main(String[] args) {\n";
+
+		System.out.println("\nTranslating source file: " + filename);
+
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File(filename));
@@ -36,45 +45,47 @@ public class Translator {
 		}
 
 		while (scanner.hasNext()) {
-			String output = "";
 			String line = scanner.nextLine();
 			if (line.startsWith(":"))
 				continue;
 
 			String[] tokens = line.split(" ");
 			if (tokens[0].equals("int")) {
+				outputStr += "\t\t";
 				System.out.println(grammar.getMap().get("<intstmt>"));
 			}
 
 			for (int i = 0; i < tokens.length; i++) {
 				System.out.print("T[" + i + "] = " + tokens[i] + ", ");
-				
+
 				if (tokens[i].equals("->")) {
-					output += "= ";
+					outputStr += "= ";
 					continue;
 				}
 				if (tokens[i].equals("add")) {
-					output += "+ ";
+					outputStr += "+ ";
 					continue;
 				}
 				if (tokens[i].equals("sub")) {
-					output += "- ";
+					outputStr += "- ";
 					continue;
 				}
 				if (tokens[i].equals("div")) {
-					output += "/ ";
+					outputStr += "/ ";
 					continue;
 				}
 				if (tokens[i].equals("mod")) {
-					output += "% ";
+					outputStr += "% ";
 					continue;
 				}
-				output += tokens[i] + " ";
+				outputStr += tokens[i] + " ";
 			}
-			output += ";";
+			outputStr += ";\n";
 			System.out.println();
-			System.out.println("Translated output: " + output);
 		}
+
+		outputStr += "\t}\n}\n";
+		return outputStr;
 	}
 
 	/**
@@ -89,9 +100,32 @@ public class Translator {
 		// List of sourcefiles to translate
 		sourceFiles.add("sample1.src");
 
-		for (String file : sourceFiles)
-			parseSource(file);
+		for (String file : sourceFiles) {
+			String outputFileContents = parseSource(file);
+			outputFile(file, outputFileContents);
+		}
 
 	}
 
+	/**
+	 * Generate output file
+	 * 
+	 * @param filename, the source file name
+	 * @param outputFileContent, the translator string contents of the output file
+	 */
+	private static void outputFile(String filename, String outputFileContents) {
+
+		int i = filename.lastIndexOf('.');
+		String name = filename.substring(0, i);
+		String outputFileName = name + ".java";
+
+		try {
+			FileWriter myWriter = new FileWriter(new File(outputFileName));
+			myWriter.write(outputFileContents);
+			myWriter.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
