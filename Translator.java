@@ -17,6 +17,7 @@ import java.util.Scanner;
 public class Translator {
 	private static Grammar grammar = new Grammar();
 	private static ArrayList<String> sourceFiles = new ArrayList<>();
+	private static final String OUTPUT_FILE_EXTENSION = ".java";
 
 	/**
 	 * Default constructor
@@ -128,9 +129,8 @@ public class Translator {
 	 */
 	private static void outputFile(String filename, String outputFileContents) {
 
-		int i = filename.lastIndexOf('.');
-		String name = filename.substring(0, i);
-		String outputFileName = name + ".java";
+		String name = filename.substring(0, filename.lastIndexOf('.'));
+		String outputFileName = name + OUTPUT_FILE_EXTENSION;
 
 		try {
 			FileWriter myWriter = new FileWriter(new File(outputFileName));
