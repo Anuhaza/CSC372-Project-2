@@ -46,8 +46,10 @@ public class Translator {
 
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
-			if (line.startsWith(":"))
+			if (line.startsWith(":")) {
+				outputStr += "\t\t//" + line.substring(1) + "\n";
 				continue;
+			}
 
 			String[] tokens = line.split(" ");
 			if (tokens[0].equals("int")) {
