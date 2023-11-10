@@ -1,5 +1,5 @@
-: This code generates diff of two decimal values
+: This code generates diff of two decimal values :
 dec x -> 3.3
 dec y -> 2.2
-: calculate diff
+: calculate diff :
 dec sum -> x sub y
