@@ -1,11 +1,12 @@
 
 /*
  * AUTHORS: Anisha Munjal, Anupama Hazarika, Jenan Meri
- * FILE: Grammar.java
+ * FILE: Translator.java
  * ASSIGNMENT: Project 2
  * COURSE: CSC 372 Fall 2023
- * Description: This file contains the grammar class. It reads the grammar 
- * file and builds HashMap of non-terminal symbols to production
+ * Description: This file contains translator code for translating the source 
+ * files written in the new language into java output files. The translation
+ * is done using the parsed grammar.
  */
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,8 @@ import java.util.Scanner;
 
 public class Translator {
 	private static Grammar grammar = new Grammar();
+	
+	// Using Arraylist for file list for now (filename will come from cmdline)
 	private static ArrayList<String> sourceFiles = new ArrayList<>();
 	private static final String OUTPUT_FILE_EXTENSION = ".java";
 

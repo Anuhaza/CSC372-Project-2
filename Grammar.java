@@ -5,7 +5,8 @@
  * ASSIGNMENT: Project 2
  * COURSE: CSC 372 Fall 2023
  * Description: This file contains the grammar class. It reads the grammar 
- * file and builds HashMap of non-terminal symbols to production
+ * file and builds HashMap of non-terminal symbols to production. It can
+ * detect errors in the grammar file.
  */
 import java.io.File;
 import java.io.FileNotFoundException;

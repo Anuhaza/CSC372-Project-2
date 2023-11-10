@@ -1,6 +1,6 @@
 /*
  * AUTHORS: Anisha Munjal, Anupama Hazarika, Jenan Meri
- * FILE: Grammar.java
+ * FILE: Nonterminal.java
  * ASSIGNMENT: Project 2
  * COURSE: CSC 372 Fall 2023
  * Description: This file contains the Nonterminal symbol class. 
