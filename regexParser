@@ -1,0 +1,81 @@
+import java.util.regex.*;
+import java.util.ArrayList;
+
+public class CustomParser {
+    // Define regular expressions for various language elements
+    private static Pattern commentPattern = Pattern.compile(":.*?:");
+    private static Pattern intstmtPattern = Pattern.compile("int (\\w+) -> (\\d+)");
+    private static Pattern intstmtOpPattern = Pattern.compile("int (\\w+) -> (\\d+|\\w+) (add|sub|div|mod) (\\d+|\\w+)");
+    private static Pattern decstmtOpPattern = Pattern.compile("dec (\\w+) -> (\\d+\\.\\d+) (add|sub|div|mod) (\\d+\\.\\d+)");
+    private static Pattern decstmtPattern = Pattern.compile("dec (\\w+) -> (\\d+\\.\\d+)");
+    private static Pattern strstmtPattern = Pattern.compile("string (\\w+) -> \\\\(.*?)\\\\( add \\\\(.*?)\\\\)?");
+    private static Pattern boolstmtPattern = Pattern.compile("bool (\\w+) -> (T|F)");
+    private static Pattern printstmtPattern = Pattern.compile("\\*(\\w+)\\*");
+
+    public static void main(String[] args) {
+        String sourceCode = ": This code generates sum of two integers :\n" +
+                            "int x -> 3\n" +
+                            "int y -> 2\n" +
+                            ": calculate sum :\n" +
+                            "int sum -> 5 add 3";
+
+        String[] lines = sourceCode.split("\n");
+
+        ArrayList<String> codeLines = new ArrayList<>();
+
+        for (String line : lines) {
+            Matcher commentMatcher = commentPattern.matcher(line);
+            if (!commentMatcher.matches()) {
+                codeLines.add(line);
+            }
+        }
+        
+        System.out.println(codeLines);
+
+        // Parse the last statement if it's not empty
+        for (int i = 0; i < codeLines.size(); i++) {
+        	System.out.println(codeLines.get(i));
+        	parseStatement(codeLines.get(i));
+        }
+    }
+
+    private static void parseStatement(String statement) {
+        Matcher matcher;
+
+        if ((matcher = intstmtPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            int value = Integer.parseInt(matcher.group(2));
+            System.out.println("INT statement: " + varName + " = " + value);
+        } else if ((matcher = intstmtOpPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            int value1 = Integer.parseInt(matcher.group(2));
+            String operator = matcher.group(3);
+            int value2 = Integer.parseInt(matcher.group(4));
+            System.out.println("INT statement with operation: " + varName + " = " + value1 + " " + operator + " " + value2);
+        } else if ((matcher = decstmtPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            double value = Double.parseDouble(matcher.group(2));
+            System.out.println("DEC statement: " + varName + " = " + value);
+        } else if ((matcher = decstmtOpPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            double value1 = Double.parseDouble(matcher.group(2));
+            String operator = matcher.group(3);
+            double value2 = Double.parseDouble(matcher.group(4));
+            System.out.println("DEC statement with operation: " + varName + " = " + value1 + " " + operator + " " + value2);
+        } else if ((matcher = strstmtPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            String value = matcher.group(2);
+            String addValue = matcher.group(4);
+            System.out.println("STRING statement: " + varName + " = " + value + (addValue != null ? " add " + addValue : ""));
+        } else if ((matcher = boolstmtPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            String value = matcher.group(2);
+            System.out.println("BOOL statement: " + varName + " = " + value);
+        } else if ((matcher = printstmtPattern.matcher(statement)).matches()) {
+            String varName = matcher.group(1);
+            System.out.println("PRINT statement: *" + varName + "*");
+        } else {
+            System.out.println("Invalid statement: " + statement);
+        }
+    }
+}
