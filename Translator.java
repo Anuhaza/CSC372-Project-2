@@ -20,6 +20,8 @@ public class Translator {
 	
 	// Using Arraylist for file list for now (filename will come from cmdline)
 	private static ArrayList<String> sourceFiles = new ArrayList<>();
+	
+	// File extension for generating output files
 	private static final String OUTPUT_FILE_EXTENSION = ".java";
 
 	/**
@@ -48,6 +50,7 @@ public class Translator {
 			e.printStackTrace();
 		}
 
+		// parse the source file in the new language (line by line)
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
 			if (line.startsWith(":")) {
@@ -55,11 +58,13 @@ public class Translator {
 				continue;
 			}
 
+			// split the line of source in new language into token strings
 			String[] tokens = line.split(" ");
 			
 			for (int i = 0; i < tokens.length; i++) {
 				System.out.print("T[" + i + "] = " + tokens[i] + ", ");
 				
+				// check if token equals int
 				if (tokens[i].equals("int")) {
 					outputStr += "\t\t";
 					System.out.println(grammar.getMap().get("<intstmt>"));
@@ -67,6 +72,7 @@ public class Translator {
 					continue;
 				}
 				
+				// check if token equals dec
 				if (tokens[i].equals("dec")) {
 					outputStr += "\t\t";
 					System.out.println(grammar.getMap().get("<decstmt>"));
@@ -74,22 +80,27 @@ public class Translator {
 					continue;
 				}
 
+				// convert -> to =
 				if (tokens[i].equals("->")) {
 					outputStr += "= ";
 					continue;
 				}
+				// convert add into +
 				if (tokens[i].equals("add")) {
 					outputStr += "+ ";
 					continue;
 				}
+				// convert sub into -
 				if (tokens[i].equals("sub")) {
 					outputStr += "- ";
 					continue;
 				}
+				// convert div into /
 				if (tokens[i].equals("div")) {
 					outputStr += "/ ";
 					continue;
 				}
+				// convert mod into %
 				if (tokens[i].equals("mod")) {
 					outputStr += "% ";
 					continue;
@@ -113,10 +124,11 @@ public class Translator {
 
 		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
 
-		// List of sourcefiles to translate
+		// List of sourcefiles to translate (for now) - use cmd line args later
 		sourceFiles.add("sample1.src");
 		sourceFiles.add("sample2.src");
 
+		// parse source files (filename will come from cmd line args later)
 		for (String file : sourceFiles) {
 			String outputFileContents = parseSource(file);
 			outputFile(file, outputFileContents);
@@ -136,7 +148,10 @@ public class Translator {
 		String outputFileName = name + OUTPUT_FILE_EXTENSION;
 
 		try {
+			// create new output file
 			FileWriter myWriter = new FileWriter(new File(outputFileName));
+			
+			// write the contents into the Java output file
 			myWriter.write(outputFileContents);
 			myWriter.close();
 
