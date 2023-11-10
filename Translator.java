@@ -61,6 +61,7 @@ public class Translator {
 			// split the line of source in new language into token strings
 			String[] tokens = line.split(" ");
 			
+			// iterate through tokens in the source file & translate into Java
 			for (int i = 0; i < tokens.length; i++) {
 				System.out.print("T[" + i + "] = " + tokens[i] + ", ");
 				
@@ -121,6 +122,8 @@ public class Translator {
 	 * @param args (not used)
 	 */
 	public static void main(String[] args) {
+		
+		// TODO: file name should come via cmd line args
 
 		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
 
@@ -133,7 +136,6 @@ public class Translator {
 			String outputFileContents = parseSource(file);
 			outputFile(file, outputFileContents);
 		}
-
 	}
 
 	/**
