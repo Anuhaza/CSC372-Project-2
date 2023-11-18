@@ -3,3 +3,6 @@ dec x -> 3.3
 dec y -> 2.2
 : calculate diff :
 dec sum -> 5.5 sub 1.1
+dec prod -> 1 mul 3
+dec result -> 4 div 2
+dec remainder -> 4 % 2

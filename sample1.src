@@ -3,3 +3,6 @@ int x -> 3
 int y -> 2
 : calculate sum :
 int sum -> 1 add 2
+int prod -> 1 mul 3
+int result -> 4 div 2
+int remainder -> 4 % 2
