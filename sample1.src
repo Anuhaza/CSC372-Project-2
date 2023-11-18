@@ -22,11 +22,11 @@ bool isValid -> T
 bool isSorted -> F
 
 : boolean expressions with basic operation: and
-bool isSortedAndValid -> and isValid IsSorted
+bool isSortedAndValid -> isValid and IsSorted
 
 : boolean expressions with basic operation: not
 bool result -> not IsSorted
 
 : boolean expressions with basic operation: or
-bool isSortedOrValid -> or isValid IsSorted
+bool isSortedOrValid -> isValid or IsSorted
 
