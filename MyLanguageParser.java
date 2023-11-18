@@ -13,7 +13,7 @@ public class MyLanguageParser {
 
     public static void main(String[] args) {
         // Example input statements
-        String inputStatement1 = "bool invalid -> x gt x";
+        String inputStatement1 = "bool invalid -> 5 gt 3";
         String inputStatement2 = "string variable -> x add \\hi\\";
 
         MyLanguageParser parser1 = new MyLanguageParser(inputStatement1);
@@ -196,13 +196,23 @@ public class MyLanguageParser {
         }
         
         if (!value.equals("T") && !value.equals("F")) {
-        	if (isDecimal(value) || isInteger(value) || isVariable(value)) {
+        	if (value.equals("not")) {
+        		String value2 = getNextToken();
+        		if (value2 == null || !value2.equals("T") && !value2.equals("F")) {
+        			throw new ParseException("Value after not is not a boolean value.");
+        		}
+        		System.out.println("Variable: " + variable);
+                System.out.println("Assignment: " + assign);
+                System.out.println("Boolean Operation: " + value);
+                System.out.println("Value2: " + value2);
+        	}
+        	else if (isDecimal(value) || isInteger(value) || isVariable(value)) {
         		String operator = getNextToken();
         		if (operator == null || !isComparison(operator)) {
         			throw new ParseException("Operator needs to be comparison based.");
         		}
         		String value2 = getNextToken();
-        		if (!isDecimal(value2) && !isInteger(value) && !isVariable(value)) {
+        		if (!isDecimal(value2) && !isInteger(value2) && !isVariable(value2)) {
         			throw new ParseException("Second operand is not comparison based.");
         		}
         		System.out.println("Variable: " + variable);
@@ -265,7 +275,7 @@ public class MyLanguageParser {
     }
     
     private boolean isLogical(String token) {
-    	return token.equals("and") || token.equals("not") || token.equals("or");
+    	return token.equals("and") || token.equals("or");
     }
 
     
