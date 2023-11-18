@@ -1,8 +1,24 @@
-: This code generates diff of two decimal values :
+: Variables that can be decimals
 dec x -> 3.3
 dec y -> 2.2
-: calculate diff :
+
+: basic decimal expressions with basic operators: addition
 dec sum -> 5.5 sub 1.1
+
+: basic decimal expressions with basic operators: subtraction
+dec diff -> 4.3 sub 2.1
+
+: basic decimal expressions with basic operators: multiplication
 dec prod -> 1 mul 3
+
+: basic decimal expressions with basic operators: division
 dec result -> 4 div 2
-dec remainder -> 4 % 2
+
+: basic decimal expressions with basic operators: modulus
+dec remainder -> 4 mod 2
+
+
+
+
+
+

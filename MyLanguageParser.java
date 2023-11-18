@@ -67,12 +67,41 @@ public class MyLanguageParser {
                 case "string":
                     strstmt();
                     break;
+                case "bool":
+                    boolstmt();
+                    break;
                 default:
                     throw new ParseException("Unexpected token: " + token);
             }
         }
     }
 
+    private void boolstmt() throws ParseException {
+        String variable = getNextToken();
+        String assign = getNextToken();
+        String value1 = getNextToken();
+
+        System.out.println("Variable: " + variable);
+        System.out.println("Assignment: " + assign);
+        System.out.println("Value 1: " + value1);
+        
+        // valid values for boolean are T or F
+        if (!value1.equals("T") && !value1.equals("F")) {
+            throw new ParseException("Invalid bool values");
+        }
+
+        String op = getNextToken();
+        if (op != null) {
+            String value2 = getNextToken();
+            if (value2 == null || !isInteger(value2)) {
+                throw new ParseException("Missing second operand for arithmetic operation");
+            }
+            System.out.println("Operator: " + op);
+            System.out.println("Value 2: " + value2);
+        }
+    }
+
+    
     private void intstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();

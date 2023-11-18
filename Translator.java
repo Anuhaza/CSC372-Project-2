@@ -54,6 +54,9 @@ public class Translator {
 		// parse the source file in the new language (line by line)
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
+			if (line.length() == 0)
+				continue;
+			
 			if (line.startsWith(":")) {
 				outputStr += "\t\t//" + line.substring(1) + "\n";
 				continue;
@@ -118,7 +121,7 @@ public class Translator {
 				 */
 		        MyLanguageParser parser1 = new MyLanguageParser(line);
 		        try {
-		            System.out.println("Parsing input line: " + line);
+		            System.out.println("Parsing input line: " + line) ;
 		            parser1.parse();
 		        } catch (Exception e) {
 		            System.err.println("Error parsing input 1: " + e.getMessage());
