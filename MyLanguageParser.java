@@ -79,28 +79,84 @@ public class MyLanguageParser {
     private void boolstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();
-        String value1 = getNextToken();
+        String value = getNextToken();
 
-        System.out.println("Variable: " + variable);
-        System.out.println("Assignment: " + assign);
-        System.out.println("Value 1: " + value1);
-        
-        // valid values for boolean are T or F
-        if (!value1.equals("T") && !value1.equals("F")) {
-            throw new ParseException("Invalid bool values");
+        if (!assign.equals("->")) {
+            throw new ParseException("Expected '->' after boolean declaration");
         }
 
-        String op = getNextToken();
-        if (op != null) {
-            String value2 = getNextToken();
-            if (value2 == null || !isInteger(value2)) {
-                throw new ParseException("Missing second operand for arithmetic operation");
+        if (value == null || (!value.equals("T") && !value.equals("F"))) {
+            if (value == null || !isComparison(value) && !value.equals("and") && !value.equals("or") && !value.equals("not")) {
+                throw new ParseException("Invalid boolean value or operator");
+            } else if (value.equals("not")) {
+            	String token = getNextToken();
+                if (!token.equals("[")) {
+                    throw new ParseException("Expected '[' after 'not' operator");
+                }
+
+                StringBuilder operand = new StringBuilder();
+                token = getNextToken();
+                while (token != null && !token.equals("]")) {
+                    operand.append(token).append(" ");
+                    token = getNextToken();
+                }
+
+                if (!token.equals("]")) {
+                    throw new ParseException("Missing closing ']' for 'not' operator");
+                }
+                
+                System.out.println("Variable: " + variable);
+                System.out.println("Assignment: " + assign);
+                System.out.println("Boolean Operation: " + value + " " + operand.toString().trim());
+            } else if (value.equals("and") || value.equals("or")) {
+                List<String> operands = new ArrayList<>();
+                String token = getNextToken();
+                while (token != null && !token.equals("]")) {
+                    if (token.equals("[")) {
+                        StringBuilder subExpr = new StringBuilder();
+                        token = getNextToken();
+                        while (token != null && !token.equals("]")) {
+                            subExpr.append(token).append(" ");
+                            token = getNextToken();
+                        }
+                        if (token == null) {
+                            throw new ParseException("Missing closing ']' for nested boolean expression");
+                        }
+                        operands.add(subExpr.toString().trim());
+                    }
+                    token = getNextToken();
+                }
+                if (operands.size() != 2) {
+                    throw new ParseException("'" + value + "' operator requires exactly two operands");
+                }
+                
+                System.out.println("Variable: " + variable);
+                System.out.println("Assignment: " + assign);
+                System.out.println("Boolean Operation: " + value + " " + operands.get(0) + " " + operands.get(1));
+            } else {
+                String operand1 = getNextToken();
+                if (operand1 == null) {
+                    throw new ParseException("Missing second operand after operator");
+                }
+                String operator = value;
+                String operand2 = getNextToken();
+                if (operand2 == null) {
+                    throw new ParseException("Missing second operand after operator");
+                }
+                System.out.println("Variable: " + variable);
+                System.out.println("Assignment: " + assign);
+                System.out.println("Boolean Operation: " + operator + " " + operand1 + " " + operand2);
             }
-            System.out.println("Operator: " + op);
-            System.out.println("Value 2: " + value2);
+        } else {
+            System.out.println("Variable: " + variable);
+            System.out.println("Assignment: " + assign);
+            System.out.println("Boolean Value: " + value);
         }
     }
 
+    private boolean isComparison(String token) {
+        return token.equals("gt") || token.equals("lt") || token.equals("equals");
+    }
     
     private void intstmt() throws ParseException {
         String variable = getNextToken();
