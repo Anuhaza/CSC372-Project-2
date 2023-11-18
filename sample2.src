@@ -2,4 +2,4 @@
 dec x -> 3.3
 dec y -> 2.2
 : calculate diff :
-dec sum -> x sub y
+dec sum -> 5.5 sub 1.1

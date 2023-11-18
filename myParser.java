@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class CustomParser {
+public class myParser {
     private static Scanner scanner;
     private static String input;
 
@@ -13,7 +13,7 @@ public class CustomParser {
             parseComment();
             parsePrintStmt();
             parseWhileLoop();
-            parseStmt2();
+//            parseStmt2();
 
             if (input.isEmpty()) {
                 System.out.println("Parsing successful!");
