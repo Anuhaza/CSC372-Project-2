@@ -114,7 +114,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = "int ";
+		String outputStr = Translator.translateFirstToken("int");
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -149,7 +149,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = "double ";
+		String outputStr = Translator.translateFirstToken("dec");
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -247,7 +247,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value = getNextToken();
-		String outputStr = "boolean ";
+		String outputStr = Translator.translateFirstToken("bool");
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after boolean declaration");

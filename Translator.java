@@ -64,14 +64,11 @@ public class Translator {
 
 			MyLanguageParser parser1 = new MyLanguageParser(line);
 			try {
-				System.out.println("Parsing input line: " + line);
-				outputStr += "\t\t" + parser1.parse();
+				// System.out.println("Parsing input line: " + line);
+				outputStr += "\t\t" + parser1.parse() + ";\n";
 			} catch (Exception e) {
 				System.err.println("Error parsing input 1: " + e.getMessage());
 			}
-
-			outputStr += ";\n";
-			System.out.println();
 		}
 
 		outputStr += "\t}\n}\n";
@@ -207,6 +204,25 @@ public class Translator {
 		
 		if (value.equals("equals"))		
 			return "== ";
+		
+		return SYNTAX_ERROR;
+	}
+
+	/**
+	 * Translate first production token from new language to Java
+	 * 
+	 * @param op, String first production token to translate
+	 * @return String, the translated String first production token
+	 */
+	public static String translateFirstToken(String value) {
+		if (value.equals("int"))		
+			return "int ";
+		
+		if (value.equals("dec"))		
+			return "double ";
+		
+		if (value.equals("bool"))		
+			return "boolean ";
 		
 		return SYNTAX_ERROR;
 	}
