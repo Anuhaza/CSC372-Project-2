@@ -224,6 +224,24 @@ public class Translator {
 		if (value.equals("bool"))
 			return "boolean ";
 
+		if (value.equals("string"))
+			return "String ";
+
 		return SYNTAX_ERROR;
+	}
+
+	/**
+	 * Translate string token from new language to Java
+	 * 
+	 * @param op, String token to translate
+	 * @return String, the translated String token
+	 */
+	public static String translateString(String value) {
+		String retStr = "\"";
+		if (value.startsWith("\\")) {
+			retStr += value.substring(2, value.length() - 2);
+		}
+		retStr += "\"";
+		return retStr;
 	}
 }

@@ -41,3 +41,6 @@ bool invalid -> 5 equals 3
 
 : variables that can be Strings
 string variable -> x add \\hi\\
+
+: variables that can be Strings
+string variable -> \\hello\\ add \\world\\

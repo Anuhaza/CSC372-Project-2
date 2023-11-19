@@ -190,6 +190,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
+		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Expected '->' after string declaration");
@@ -210,9 +211,13 @@ public class MyLanguageParser {
 			throw new ParseException("String value must be enclosed in backslashes");
 		}
 
-		System.out.println("Variable: " + variable);
-		System.out.println("Assignment: " + assign);
-		System.out.println("String Value 1: " + value1);
+		outputStr += variable + " ";
+		outputStr += Translator.translateAssign(assign); // translate "->"
+		if (value1.startsWith("\\") && value1.endsWith("\\")) {
+			outputStr += Translator.translateString(value1) + " ";
+		} else {
+			outputStr += value1 + " ";
+		}
 
 		String operation = getNextToken();
 		if (operation != null && !operation.equals("add")) {
@@ -235,11 +240,11 @@ public class MyLanguageParser {
 			if (!isVariable(value2) && !value2.endsWith("\\")) {
 				throw new ParseException("String value must be enclosed in backslashes");
 			}
-			System.out.println("Operation: " + operation);
-			System.out.println("String Value 2: " + value2);
+			outputStr += Translator.translateOperator(operation);
+			outputStr += Translator.translateString(value2);
 		}
 
-		return "Translated Java Code";
+		return outputStr;
 
 	}
 
