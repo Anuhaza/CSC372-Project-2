@@ -226,7 +226,7 @@ public class MyLanguageParser {
 
 		if (operation != null) {
 			String value2 = getNextToken();
-			if (value2 == null || (!value2.startsWith("\\")) && !isVariable(value2)) {
+			if (value2 == null || (!value2.startsWith("\\")) && !isVariable(value2) && !isCmdLine(value2)) {
 				throw new ParseException("String value must be enclosed in backslashes");
 			}
 
@@ -237,15 +237,18 @@ public class MyLanguageParser {
 				value2 += " " + nVal;
 			}
 
-			if (!isVariable(value2) && !value2.endsWith("\\")) {
+			if (!isVariable(value2) && !value2.endsWith("\\") && !isCmdLine(value2)) {
 				throw new ParseException("String value must be enclosed in backslashes");
 			}
 			outputStr += Translator.translateOperator(operation);
-			outputStr += Translator.translateString(value2);
+			if (isCmdLine(value2)) {
+				outputStr += Translator.translateCmdline(value2);
+			} else {
+				outputStr += Translator.translateString(value2);
+			}
 		}
 
 		return outputStr;
-
 	}
 
 	/**
@@ -392,6 +395,20 @@ public class MyLanguageParser {
 		} catch (NumberFormatException e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Is the token a command line argument
+	 * 
+	 * @param value2, String token
+	 * @return boolean, true if passed String is a cmdline arg, false otherwise
+	 */
+	private boolean isCmdLine(String value) {
+		if (value.startsWith("<") && value.endsWith(">")) {
+			if (value.contains("cmdline"))
+				return true;
+		}
+		return false;
 	}
 
 	/**

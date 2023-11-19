@@ -65,7 +65,7 @@ public class Translator {
 			MyLanguageParser parser1 = new MyLanguageParser(line);
 			try {
 				outputStr += "\t\t";
-				
+
 				// System.out.println("Parsing input line: " + line);
 				if (line.startsWith("*") && line.endsWith("*")) {
 					outputStr += translateFirstToken(line);
@@ -254,8 +254,25 @@ public class Translator {
 		String retStr = "\"";
 		if (value.startsWith("\\")) {
 			retStr += value.substring(2, value.length() - 2);
+		} else {
+			return SYNTAX_ERROR;
 		}
 		retStr += "\"";
 		return retStr;
+	}
+
+	/**
+	 * Translate <cmdline> token from new language to Java
+	 * 
+	 * @param op, <cmdline> token to translate
+	 * @return String, the translated <cmdline> token
+	 */
+	public static String translateCmdline(String value) {
+		if (value.startsWith("<") && value.endsWith(">")) {
+			if (value.contains("cmdline"))
+				return "args[" + value.substring(8, 9) + "]";
+		}
+
+		return SYNTAX_ERROR;
 	}
 }
