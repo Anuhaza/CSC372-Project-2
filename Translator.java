@@ -87,12 +87,6 @@ public class Translator {
 						outputStr += "double" + " ";
 						continue;
 					}
-
-					// convert -> to =
-					if (tokens[i].equals("->")) {
-						outputStr += "= ";
-						continue;
-					}
 					// convert add into +
 					if (tokens[i].equals("add")) {
 						outputStr += "+ ";
@@ -178,5 +172,31 @@ public class Translator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Translate operator from new language to Java 
+	 * 
+	 * @param op, String operator to translate
+	 * @return String, the translated String operator
+	 */
+	public static String translateOperator(String op) {
+		// convert add into +
+		if (op.equals("add"))
+			return "+ ";
+			
+		if (op.equals("sub"))
+			return "- ";
+		
+		if (op.equals("mul"))
+			return "* ";
+		
+		if (op.equals("div"))
+			return "/ ";
+		
+		if (op.equals("mod"))
+			return "% ";
+		
+		return "Syntax Error";
 	}
 }
