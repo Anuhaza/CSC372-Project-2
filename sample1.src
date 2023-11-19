@@ -44,3 +44,6 @@ string variable -> x add \\hi\\
 
 : variables that can be Strings
 string variable -> \\hello\\ add \\world\\
+
+:printing to output
+*Parser and Translator are working!*

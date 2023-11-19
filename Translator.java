@@ -64,8 +64,15 @@ public class Translator {
 
 			MyLanguageParser parser1 = new MyLanguageParser(line);
 			try {
+				outputStr += "\t\t";
+				
 				// System.out.println("Parsing input line: " + line);
-				outputStr += "\t\t" + parser1.parse() + ";\n";
+				if (line.startsWith("*") && line.endsWith("*")) {
+					outputStr += translateFirstToken(line);
+				} else {
+					outputStr += parser1.parse();
+				}
+				outputStr += ";\n";
 			} catch (Exception e) {
 				System.err.println("Error parsing input 1: " + e.getMessage());
 			}
@@ -226,6 +233,13 @@ public class Translator {
 
 		if (value.equals("string"))
 			return "String ";
+
+		if (value.startsWith("*") && value.endsWith("*")) {
+			String retStr = "System.out.println(\"";
+			retStr += value.substring(1, value.length() - 1);
+			retStr += "\")";
+			return retStr;
+		}
 
 		return SYNTAX_ERROR;
 	}
