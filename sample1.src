@@ -30,3 +30,11 @@ bool result -> not T
 : boolean expressions with basic operation: or
 bool isSortedOrValid -> isValid or IsSorted
 
+: boolean expressions with comparison operator: gt
+bool invalid -> 5 gt 3
+
+: boolean expressions with comparison operator: lt
+bool invalid -> 2 lt 3
+
+: boolean expressions with comparison operator: equals
+bool invalid -> 5 equals 3

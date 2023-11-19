@@ -191,4 +191,23 @@ public class Translator {
 		
 		return SYNTAX_ERROR;
 	}
+	
+	/**
+	 * Translate comparison operator from new language to Java
+	 * 
+	 * @param op, String comparison operator to translate
+	 * @return String, the translated String comparison operator
+	 */
+	public static String translateComparison(String value) {
+		if (value.equals("gt"))		
+			return "> ";
+		
+		if (value.equals("lt"))		
+			return "< ";
+		
+		if (value.equals("equals"))		
+			return "== ";
+		
+		return SYNTAX_ERROR;
+	}
 }

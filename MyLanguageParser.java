@@ -114,7 +114,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = "";
+		String outputStr = "int ";
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -149,7 +149,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = "";
+		String outputStr = "double ";
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -247,7 +247,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value = getNextToken();
-		String outputStr = "";
+		String outputStr = "boolean ";
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after boolean declaration");
@@ -292,11 +292,9 @@ public class MyLanguageParser {
 				if (!isDecimal(value2) && !isInteger(value2) && !isVariable(value2)) {
 					throw new ParseException("Second operand is not comparison based.");
 				}
-				System.out.println("Variable: " + variable);
-				System.out.println("Assignment: " + assign);
-				System.out.println("Value 1: " + value);
-				System.out.println("Boolean Operation: " + operator);
-				System.out.println("Value2: " + value2);
+				outputStr += value + " ";
+				outputStr += Translator.translateComparison(operator);
+				outputStr += value2;
 				
 			} else {
 				throw new ParseException("First operand is not comparison based or a boolean value.");

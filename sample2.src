@@ -17,7 +17,14 @@ dec result -> 4 div 2
 : basic decimal expressions with basic operators: modulus
 dec remainder -> 4 mod 2
 
+: boolean expressions with comparison operator: gt
+bool invalid -> 5.1 gt 3.2
 
+: boolean expressions with comparison operator: lt
+bool invalid -> 2.1 lt 3.5
+
+: boolean expressions with comparison operator: equals
+bool invalid -> 5.1 equals 3.2
 
 
 
