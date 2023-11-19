@@ -122,7 +122,7 @@ public class Translator {
 				MyLanguageParser parser1 = new MyLanguageParser(line);
 				try {
 					System.out.println("Parsing input line: " + line);
-					outputStr += "\t\t" + parser1.parse();
+					outputStr +=  "\t\t" + parser1.parse();
 				} catch (Exception e) {
 					System.err.println("Error parsing input 1: " + e.getMessage());
 				}
@@ -144,12 +144,39 @@ public class Translator {
 	 * @param args (not used)
 	 */
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.out.println("Error: Missing source filename in command line args");
-			return;
-		}
+//		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
 
-		String outputFileContents = parseSource(args[0]);
-		System.out.println(outputFileContents);
+			// Source file name comes from command line
+			if (args.length == 0) {
+				System.out.println("Error: Missing source filename in command line args");
+				return;
+			}
+
+			String outputFileContents = parseSource(args[0]);
+			System.out.println(outputFileContents);
+	}
+
+	/**
+	 * Generate output file
+	 * 
+	 * @param filename,          the source file name
+	 * @param outputFileContent, the translator string contents of the output file
+	 */
+	private static void outputFile(String filename, String outputFileContents) {
+
+		String name = filename.substring(0, filename.lastIndexOf('.'));
+		String outputFileName = name + OUTPUT_FILE_EXTENSION;
+
+		try {
+			// create new output file
+			FileWriter myWriter = new FileWriter(new File(outputFileName));
+
+			// write the contents into the Java output file
+			myWriter.write(outputFileContents);
+			myWriter.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
