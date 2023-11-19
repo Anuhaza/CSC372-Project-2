@@ -247,6 +247,7 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value = getNextToken();
+		String outputStr = "";
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Expected '->' after boolean declaration");
@@ -256,6 +257,9 @@ public class MyLanguageParser {
 			throw new ParseException("Invalid boolean value or statement");
 		}
 
+		outputStr += variable + " ";
+		outputStr += Translator.translateAssign(assign); // translate "->"
+		
 		if (!value.equals("T") && !value.equals("F")) {
 			if (value.equals("not")) {
 				String value2 = getNextToken();
@@ -286,9 +290,7 @@ public class MyLanguageParser {
 		} else {
 			String operator = getNextToken();
 			if (operator == null) {
-				System.out.println("Variable: " + variable);
-				System.out.println("Assignment: " + assign);
-				System.out.println("Value: " + value);
+				outputStr += Translator.translateBoolean(value);		
 			} else {
 				if (!isLogical(operator)) {
 					throw new ParseException("Operand is not logical.");
@@ -305,8 +307,7 @@ public class MyLanguageParser {
 			}
 		}
 
-		return "Translated Java Code";
-
+		return outputStr;
 	}
 
 	/**

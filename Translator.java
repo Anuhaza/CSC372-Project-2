@@ -156,4 +156,20 @@ public class Translator {
 
 		return SYNTAX_ERROR;
 	}
+
+	/**
+	 * Translate boolean value from new language to Java
+	 * 
+	 * @param op, String boolean to translate
+	 * @return String, the translated String boolean
+	 */
+	public static String translateBoolean(String value) {
+		if (value.equals("T"))		
+			return "true";
+		
+		if (value.equals("F"))		
+			return "false";
+		
+		return SYNTAX_ERROR;
+	}
 }
