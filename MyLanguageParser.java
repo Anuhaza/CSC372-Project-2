@@ -1,3 +1,10 @@
+/*
+ * AUTHORS: Anisha Munjal, Anupama Hazarika, Jenan Meri
+ * FILE: MyLanguageParser.java
+ * ASSIGNMENT: Project 2
+ * COURSE: CSC 372 Fall 2023
+ * Description: This file contains parser for the new language
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -11,6 +18,10 @@ public class MyLanguageParser {
         this.currentTokenIndex = 0;
     }
 
+    /**
+     * Main method
+     * @param args, String cmd line args (not used here)
+     */
     public static void main(String[] args) {
         // Example input statements
         String inputStatement1 = "bool invalid -> 5 gt 3";
@@ -34,6 +45,12 @@ public class MyLanguageParser {
         }
     }
 
+    /**
+     * Tokenize line of source code of the new language
+     * 
+     * @param inputStatement, String input line
+     * @return List<String>, the list of tokens
+     */
     private List<String> tokenizeInput(String inputStatement) {
         List<String> tokens = new ArrayList<>();
         StringTokenizer tokenizer = new StringTokenizer(inputStatement, " ");
@@ -43,10 +60,18 @@ public class MyLanguageParser {
         return tokens;
     }
 
+    /*
+     * Statement parser
+     */
     public void parse() throws ParseException {
         stmt();
     }
 
+    /**
+     * Get next token
+     * 
+     * @return String, the next token string
+     */
     private String getNextToken() {
         if (currentTokenIndex < tokens.size()) {
             return tokens.get(currentTokenIndex++);
@@ -54,6 +79,9 @@ public class MyLanguageParser {
         return null;
     }
 
+    /*
+     * Parser for the grammar rules
+     */
     private void stmt() throws ParseException {
         String token = getNextToken();
         if (token != null) {
@@ -76,6 +104,11 @@ public class MyLanguageParser {
         }
     }
 
+    /**
+     * Parser for intstmt
+     * 
+     * @throws ParseException
+     */
     private void intstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();
@@ -100,6 +133,11 @@ public class MyLanguageParser {
         }
     }
 
+    /**
+     * Parser for decstmt
+     * 
+     * @throws ParseException
+     */
     private void decstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();
@@ -128,6 +166,11 @@ public class MyLanguageParser {
         }
     }
 
+    /**
+     * Parser for strstmt
+     * 
+     * @throws ParseException
+     */
     private void strstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();
@@ -182,6 +225,11 @@ public class MyLanguageParser {
         }
     }
     
+    /**
+     * parser for boolstmt
+     * 
+     * @throws ParseException
+     */
     private void boolstmt() throws ParseException {
         String variable = getNextToken();
         String assign = getNextToken();
@@ -250,6 +298,12 @@ public class MyLanguageParser {
 
     }
 
+    /**
+     * Is the token string a variable
+     * 
+     * @param str, String token
+     * @return boolean, true if passed String is a var, false otherwise
+     */
     public static boolean isVariable(String str) {
         if (str.isEmpty()) {
             return false;
@@ -269,16 +323,33 @@ public class MyLanguageParser {
         return true;
     }
 
-
+    /**
+     * Is the token string a comparison token
+     * 
+     * @param str, String token
+     * @return boolean, true if passed String is a comparator, false otherwise
+     */
     private boolean isComparison(String token) {
         return token.equals("gt") || token.equals("lt") || token.equals("equals");
     }
     
+    /**
+     * Is the token string a logical operation
+     * 
+     * @param str, String token
+     * @return boolean, true if passed String is a logical operation, false otherwise
+     */
     private boolean isLogical(String token) {
     	return token.equals("and") || token.equals("or");
     }
 
     
+    /**
+     * Is the token string a decimal
+     * 
+     * @param str, String token
+     * @return boolean, true if passed String is a decimal, false otherwise
+     */
     private boolean isDecimal(String value) {
         try {
             Double.parseDouble(value);
@@ -288,6 +359,12 @@ public class MyLanguageParser {
         }
     }
     
+    /**
+     * Is the token string an integer
+     * 
+     * @param str, String token
+     * @return boolean, true if passed String is an integer, false otherwise
+     */
     private boolean isInteger(String value) {
         try {
             Integer.parseInt(value);
@@ -297,6 +374,9 @@ public class MyLanguageParser {
         }
     }
 
+    /**
+     * ParseException (extends Exception)
+     */
     private static class ParseException extends Exception {
         public ParseException(String message) {
             super(message);
