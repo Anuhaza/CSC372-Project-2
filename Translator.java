@@ -161,15 +161,15 @@ public class Translator {
 	 * @return String, the translated String boolean
 	 */
 	public static String translateBoolean(String value) {
-		if (value.equals("T"))		
+		if (value.equals("T"))
 			return "true";
-		
-		if (value.equals("F"))		
+
+		if (value.equals("F"))
 			return "false";
-		
+
 		return SYNTAX_ERROR;
 	}
-	
+
 	/**
 	 * Translate logical operator from new language to Java
 	 * 
@@ -177,18 +177,18 @@ public class Translator {
 	 * @return String, the translated String logical operator
 	 */
 	public static String translateLogical(String value) {
-		if (value.equals("and"))		
+		if (value.equals("and"))
 			return "&& ";
-		
-		if (value.equals("or"))		
+
+		if (value.equals("or"))
 			return "|| ";
-		
-		if (value.equals("not"))		
+
+		if (value.equals("not"))
 			return "!";
-		
+
 		return SYNTAX_ERROR;
 	}
-	
+
 	/**
 	 * Translate comparison operator from new language to Java
 	 * 
@@ -196,15 +196,15 @@ public class Translator {
 	 * @return String, the translated String comparison operator
 	 */
 	public static String translateComparison(String value) {
-		if (value.equals("gt"))		
+		if (value.equals("gt"))
 			return "> ";
-		
-		if (value.equals("lt"))		
+
+		if (value.equals("lt"))
 			return "< ";
-		
-		if (value.equals("equals"))		
+
+		if (value.equals("equals"))
 			return "== ";
-		
+
 		return SYNTAX_ERROR;
 	}
 
@@ -215,15 +215,15 @@ public class Translator {
 	 * @return String, the translated String first production token
 	 */
 	public static String translateFirstToken(String value) {
-		if (value.equals("int"))		
+		if (value.equals("int"))
 			return "int ";
-		
-		if (value.equals("dec"))		
+
+		if (value.equals("dec"))
 			return "double ";
-		
-		if (value.equals("bool"))		
+
+		if (value.equals("bool"))
 			return "boolean ";
-		
+
 		return SYNTAX_ERROR;
 	}
 }
