@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Translator {
-	//private static Grammar grammar = new Grammar();
+	// private static Grammar grammar = new Grammar();
 
 	// Using Arraylist for file list for now (filename will come from cmdline)
 	private static ArrayList<String> sourceFiles = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Translator {
 			String line = scanner.nextLine();
 			if (line.length() == 0)
 				continue;
-			
+
 			if (line.startsWith(":")) {
 				outputStr += "\t\t//" + line.substring(1) + "\n";
 				continue;
@@ -119,13 +119,13 @@ public class Translator {
 				/*
 				 * New code
 				 */
-		        MyLanguageParser parser1 = new MyLanguageParser(line);
-		        try {
-		            System.out.println("Parsing input line: " + line) ;
-		            parser1.parse();
-		        } catch (Exception e) {
-		            System.err.println("Error parsing input 1: " + e.getMessage());
-		        }
+				MyLanguageParser parser1 = new MyLanguageParser(line);
+				try {
+					System.out.println("Parsing input line: " + line);
+					parser1.parse();
+				} catch (Exception e) {
+					System.err.println("Error parsing input 1: " + e.getMessage());
+				}
 
 			}
 
@@ -144,20 +144,16 @@ public class Translator {
 	 * @param args (not used)
 	 */
 	public static void main(String[] args) {
-
-		// TODO: file name should come via cmd line args
-
 //		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
 
-		// List of sourcefiles to translate (for now) - use cmd line args later
-		sourceFiles.add("sample1.src");
-		sourceFiles.add("sample2.src");
+			// Source file name comes from command line
+			if (args.length == 0) {
+				System.out.println("Error: Missing source filename in command line args");
+				return;
+			}
 
-		// parse source files (filename will come from cmd line args later)
-		for (String file : sourceFiles) {
-			String outputFileContents = parseSource(file);
-			outputFile(file, outputFileContents);
-		}
+			String outputFileContents = parseSource(args[0]);
+			System.out.println(outputFileContents);
 	}
 
 	/**

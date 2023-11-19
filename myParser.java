@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class MyLanguageParser {
+public class myParser {
     private List<String> tokens;
     private int currentTokenIndex;
 
-    public MyLanguageParser(String inputStatement) {
+    public myParser(String inputStatement) {
         this.tokens = tokenizeInput(inputStatement);
         this.currentTokenIndex = 0;
     }
@@ -17,9 +17,9 @@ public class MyLanguageParser {
         String inputStatement2 = "dec variable -> 42.5";
         String inputStatement3 = "print *var* <comment> int var loops through (1, 10) print *var* loops";
         
-        MyLanguageParser parser1 = new MyLanguageParser(inputStatement1);
-        MyLanguageParser parser2 = new MyLanguageParser(inputStatement2);
-        MyLanguageParser parser3 = new MyLanguageParser(inputStatement3);
+        myParser parser1 = new myParser(inputStatement1);
+        myParser parser2 = new myParser(inputStatement2);
+        myParser parser3 = new myParser(inputStatement3);
 
         try {
             System.out.println("Parsing input 1:");
