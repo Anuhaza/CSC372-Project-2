@@ -25,7 +25,7 @@ bool isSorted -> F
 bool isSortedAndValid -> isValid and IsSorted
 
 : boolean expressions with basic operation: not
-bool result -> not IsSorted
+bool result -> not T
 
 : boolean expressions with basic operation: or
 bool isSortedOrValid -> isValid or IsSorted

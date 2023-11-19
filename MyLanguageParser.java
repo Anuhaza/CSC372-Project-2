@@ -250,11 +250,11 @@ public class MyLanguageParser {
 		String outputStr = "";
 
 		if (!assign.equals("->")) {
-			throw new ParseException("Expected '->' after boolean declaration");
+			throw new ParseException("Syntax Error: Expected '->' after boolean declaration");
 		}
 
 		if (value == null) {
-			throw new ParseException("Invalid boolean value or statement");
+			throw new ParseException("Syntax Error: Invalid boolean value or statement");
 		}
 
 		outputStr += variable + " ";
@@ -264,13 +264,31 @@ public class MyLanguageParser {
 			if (value.equals("not")) {
 				String value2 = getNextToken();
 				if (value2 == null || !value2.equals("T") && !value2.equals("F")) {
-					throw new ParseException("Value after not is not a boolean value.");
+					throw new ParseException("Syntax Error: boolean value must follow not.");
+				}			
+				outputStr += Translator.translateLogical(value);
+				outputStr += Translator.translateBoolean(value2);		
+				
+			} else if (isVariable(value)) {
+				String operator = getNextToken();
+				if (operator == null || !isLogical(operator)) {
+					throw new ParseException("Syntax Error: Operator needs to be logical based.");
+				}
+				String value2 = getNextToken();
+				if (!isVariable(value)) {
+					throw new ParseException("Syntax Error: Second operand is not a variable.");
 				}
 				System.out.println("Variable: " + variable);
 				System.out.println("Assignment: " + assign);
-				System.out.println("Boolean Operation: " + value);
+				System.out.println("Value 1: " + value);
+				System.out.println("Boolean Operation: " + operator);
 				System.out.println("Value2: " + value2);
-			} else if (isDecimal(value) || isInteger(value) || isVariable(value)) {
+				
+				outputStr += value + " ";
+				outputStr += Translator.translateLogical(operator);
+				outputStr += value2;
+				
+			} else if (isDecimal(value) || isInteger(value)) {
 				String operator = getNextToken();
 				if (operator == null || !isComparison(operator)) {
 					throw new ParseException("Operator needs to be comparison based.");
@@ -284,6 +302,7 @@ public class MyLanguageParser {
 				System.out.println("Value 1: " + value);
 				System.out.println("Boolean Operation: " + operator);
 				System.out.println("Value2: " + value2);
+				
 			} else {
 				throw new ParseException("First operand is not comparison based or a boolean value.");
 			}
@@ -296,9 +315,14 @@ public class MyLanguageParser {
 					throw new ParseException("Operand is not logical.");
 				}
 				String value2 = getNextToken();
-				if (value2 == null || !value2.equals("T") && !value2.equals("F")) {
+				if (value2 == null || !isVariable(value) && !isVariable(value2)) {
 					throw new ParseException("Second value is not a boolean value.");
 				}
+				
+				outputStr += value;
+				outputStr += Translator.translateLogical(operator);
+				outputStr += value2;
+				
 				System.out.println("Variable: " + variable);
 				System.out.println("Assignment: " + assign);
 				System.out.println("Value 1: " + value);

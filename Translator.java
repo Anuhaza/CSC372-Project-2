@@ -172,4 +172,23 @@ public class Translator {
 		
 		return SYNTAX_ERROR;
 	}
+	
+	/**
+	 * Translate logical operator from new language to Java
+	 * 
+	 * @param op, String logical operator to translate
+	 * @return String, the translated String logical operator
+	 */
+	public static String translateLogical(String value) {
+		if (value.equals("and"))		
+			return "&& ";
+		
+		if (value.equals("or"))		
+			return "|| ";
+		
+		if (value.equals("not"))		
+			return "!";
+		
+		return SYNTAX_ERROR;
+	}
 }
