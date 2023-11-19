@@ -127,7 +127,7 @@ public class MyLanguageParser {
 		}
 		
 		outputStr += variable + " ";
-		outputStr += "= ";
+		outputStr += Translator.translateAssign(assign);
 		outputStr += value1;
 
 		String op = getNextToken();

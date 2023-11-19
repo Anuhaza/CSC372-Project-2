@@ -116,7 +116,7 @@ public class Translator {
 				MyLanguageParser parser1 = new MyLanguageParser(line);
 				try {
 					System.out.println("Parsing input line: " + line);
-					outputStr +=  "\t\t" + parser1.parse();
+					outputStr += "\t\t" + parser1.parse();
 				} catch (Exception e) {
 					System.err.println("Error parsing input 1: " + e.getMessage());
 				}
@@ -140,14 +140,14 @@ public class Translator {
 	public static void main(String[] args) {
 //		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
 
-			// Source file name comes from command line
-			if (args.length == 0) {
-				System.out.println("Error: Missing source filename in command line args");
-				return;
-			}
+		// Source file name comes from command line
+		if (args.length == 0) {
+			System.out.println("Error: Missing source filename in command line args");
+			return;
+		}
 
-			String outputFileContents = parseSource(args[0]);
-			System.out.println(outputFileContents);
+		String outputFileContents = parseSource(args[0]);
+		System.out.println(outputFileContents);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class Translator {
 	}
 
 	/**
-	 * Translate operator from new language to Java 
+	 * Translate operator from new language to Java
 	 * 
 	 * @param op, String operator to translate
 	 * @return String, the translated String operator
@@ -184,19 +184,32 @@ public class Translator {
 		// convert add into +
 		if (op.equals("add"))
 			return "+ ";
-			
+
 		if (op.equals("sub"))
 			return "- ";
-		
+
 		if (op.equals("mul"))
 			return "* ";
-		
+
 		if (op.equals("div"))
 			return "/ ";
-		
+
 		if (op.equals("mod"))
 			return "% ";
-		
+
+		return "Syntax Error";
+	}
+
+	/**
+	 * Translate assign from new language to Java
+	 * 
+	 * @param op, String assign to translate
+	 * @return String, the translated String assign
+	 */
+	public static String translateAssign(String assign) {
+		if (assign.equals("->"))
+			return "= ";
+
 		return "Syntax Error";
 	}
 }
