@@ -107,6 +107,7 @@ public class MyLanguageParser {
 	/**
 	 * Parser for intstmt
 	 * 
+	 * @return String, the parsed and translated string
 	 * @throws ParseException
 	 */
 	private String intstmt() throws ParseException {
@@ -115,19 +116,15 @@ public class MyLanguageParser {
 		String value1 = getNextToken();
 		String outputStr = "";
 
-		System.out.println("Variable: " + variable);
-		System.out.println("Assignment: " + assign);
-		System.out.println("Value 1: " + value1);
-
 		if (!assign.equals("->")) {
-			throw new ParseException("Syntax Error: Invalid assign operator");
+			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
 		}
 		if (!isInteger(value1) && !isVariable(value1)) {
 			throw new ParseException("Syntax Error: Invalid integer values");
 		}
 		
 		outputStr += variable + " ";
-		outputStr += Translator.translateAssign(assign);
+		outputStr += Translator.translateAssign(assign); // translate "->"
 		outputStr += value1;
 
 		String op = getNextToken();
@@ -135,10 +132,7 @@ public class MyLanguageParser {
 			String value2 = getNextToken();
 			if (value2 == null || !isInteger(value2) && !isVariable(value2)) {
 				throw new ParseException("Missing second operand for arithmetic operation");
-			}
-			System.out.println("Operator: " + op);
-			System.out.println("Value 2: " + value2);
-			
+			}		
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
 		} 
@@ -155,18 +149,19 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
+		String outputStr = "";
 
 		if (!assign.equals("->")) {
-			throw new ParseException("Expected '->' after variable declaration");
+			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
 		}
 
 		if (!isDecimal(value1) && !isVariable(value1)) {
 			throw new ParseException("Invalid decimal values");
 		}
 
-		System.out.println("Variable: " + variable);
-		System.out.println("Assignment: " + assign);
-		System.out.println("Value 1: " + value1);
+		outputStr += variable + " ";
+		outputStr += Translator.translateAssign(assign); // translate "->"
+		outputStr += value1;
 
 		String op = getNextToken();
 		if (op != null) {
@@ -174,12 +169,11 @@ public class MyLanguageParser {
 			if (value2 == null || !isDecimal(value2) && !isVariable(value2)) {
 				throw new ParseException("Missing correct second operand for arithmetic operation");
 			}
-			System.out.println("Operator: " + op);
-			System.out.println("Value 2: " + value2);
+			outputStr += " " + Translator.translateOperator(op);
+			outputStr += value2;
 		}
 
-		return "Translated Java Code";
-
+		return outputStr;
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class Translator {
 
 	// File extension for generating output files
 	private static final String OUTPUT_FILE_EXTENSION = ".java";
-	private static boolean switchToNew = true;
+	private static final String SYNTAX_ERROR = "Syntax Error";
 
 	/**
 	 * Default constructor
@@ -62,70 +62,16 @@ public class Translator {
 				continue;
 			}
 
-			// split the line of source in new language into token strings
-			String[] tokens = line.split(" ");
-
-			if (switchToNew == false) {
-
-				// iterate through tokens in the source file & translate into Java
-				for (int i = 0; i < tokens.length; i++) {
-
-					System.out.print("T[" + i + "] = " + tokens[i] + ", ");
-
-					// check if token equals int
-					if (tokens[i].equals("int")) {
-						outputStr += "\t\t";
-//						System.out.println(grammar.getMap().get("<intstmt>"));
-						outputStr += tokens[i] + " ";
-						continue;
-					}
-
-					// check if token equals dec
-					if (tokens[i].equals("dec")) {
-						outputStr += "\t\t";
-//						System.out.println(grammar.getMap().get("<decstmt>"));
-						outputStr += "double" + " ";
-						continue;
-					}
-					// convert add into +
-					if (tokens[i].equals("add")) {
-						outputStr += "+ ";
-						continue;
-					}
-					// convert sub into -
-					if (tokens[i].equals("sub")) {
-						outputStr += "- ";
-						continue;
-					}
-					// convert div into /
-					if (tokens[i].equals("div")) {
-						outputStr += "/ ";
-						continue;
-					}
-					// convert mod into %
-					if (tokens[i].equals("mod")) {
-						outputStr += "% ";
-						continue;
-					}
-					outputStr += tokens[i] + " ";
-				}
-			} else {
-				/*
-				 * New code
-				 */
-				MyLanguageParser parser1 = new MyLanguageParser(line);
-				try {
-					System.out.println("Parsing input line: " + line);
-					outputStr += "\t\t" + parser1.parse();
-				} catch (Exception e) {
-					System.err.println("Error parsing input 1: " + e.getMessage());
-				}
-
+			MyLanguageParser parser1 = new MyLanguageParser(line);
+			try {
+				System.out.println("Parsing input line: " + line);
+				outputStr += "\t\t" + parser1.parse();
+			} catch (Exception e) {
+				System.err.println("Error parsing input 1: " + e.getMessage());
 			}
 
 			outputStr += ";\n";
 			System.out.println();
-
 		}
 
 		outputStr += "\t}\n}\n";
@@ -138,8 +84,6 @@ public class Translator {
 	 * @param args (not used)
 	 */
 	public static void main(String[] args) {
-//		System.out.println("\nParsed " + grammar.getMap().size() + " grammar productions into HashMap.");
-
 		// Source file name comes from command line
 		if (args.length == 0) {
 			System.out.println("Error: Missing source filename in command line args");
@@ -197,7 +141,7 @@ public class Translator {
 		if (op.equals("mod"))
 			return "% ";
 
-		return "Syntax Error";
+		return SYNTAX_ERROR;
 	}
 
 	/**
@@ -210,6 +154,6 @@ public class Translator {
 		if (assign.equals("->"))
 			return "= ";
 
-		return "Syntax Error";
+		return SYNTAX_ERROR;
 	}
 }
