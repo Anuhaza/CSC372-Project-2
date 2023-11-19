@@ -278,12 +278,7 @@ public class MyLanguageParser {
 				if (!isVariable(value)) {
 					throw new ParseException("Syntax Error: Second operand is not a variable.");
 				}
-				System.out.println("Variable: " + variable);
-				System.out.println("Assignment: " + assign);
-				System.out.println("Value 1: " + value);
-				System.out.println("Boolean Operation: " + operator);
-				System.out.println("Value2: " + value2);
-				
+
 				outputStr += value + " ";
 				outputStr += Translator.translateLogical(operator);
 				outputStr += value2;
