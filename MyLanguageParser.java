@@ -89,15 +89,15 @@ public class MyLanguageParser {
 		if (token != null) {
 			switch (token) {
 			case "int":
-				return intstmt();
+				return intstmt(token);
 			case "dec":
-				return decstmt();
+				return decstmt(token);
 			case "string":
-				return strstmt();
+				return strstmt(token);
 			case "bool":
-				return boolstmt();
+				return boolstmt(token);
 			default:
-				throw new ParseException("Unexpected token: " + token);
+				throw new ParseException("Syntax Error: Unexpected token: " + token);
 			}
 		}
 
@@ -107,14 +107,15 @@ public class MyLanguageParser {
 	/**
 	 * Parser for intstmt
 	 * 
+	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
 	 * @throws ParseException
 	 */
-	private String intstmt() throws ParseException {
+	private String intstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = Translator.translateFirstToken("int");
+		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -143,13 +144,15 @@ public class MyLanguageParser {
 	/**
 	 * Parser for decstmt
 	 * 
+	 * @param String, the first token in the production
+	 * @return String, the parsed and translated string
 	 * @throws ParseException
 	 */
-	private String decstmt() throws ParseException {
+	private String decstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		String outputStr = Translator.translateFirstToken("dec");
+		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
@@ -179,9 +182,11 @@ public class MyLanguageParser {
 	/**
 	 * Parser for strstmt
 	 * 
+	 * @param String, the first token in the production
+	 * @return String, the parsed and translated string
 	 * @throws ParseException
 	 */
-	private String strstmt() throws ParseException {
+	private String strstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
@@ -239,15 +244,17 @@ public class MyLanguageParser {
 	}
 
 	/**
-	 * parser for boolstmt
+	 * Parser for boolstmt
 	 * 
+	 * @param String, the first token in the production
+	 * @return String, the parsed and translated string
 	 * @throws ParseException
 	 */
-	private String boolstmt() throws ParseException {
+	private String boolstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value = getNextToken();
-		String outputStr = Translator.translateFirstToken("bool");
+		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
 			throw new ParseException("Syntax Error: Expected '->' after boolean declaration");

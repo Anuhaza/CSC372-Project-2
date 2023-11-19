@@ -38,3 +38,6 @@ bool invalid -> 2 lt 3
 
 : boolean expressions with comparison operator: equals
 bool invalid -> 5 equals 3
+
+: variables that can be Strings
+string variable -> x add \\hi\\
