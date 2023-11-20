@@ -1,0 +1,61 @@
+: Variables that can be integers
+int m -> 11
+int n -> 5
+
+: basic integer expressions with basic operators: addition
+int sum -> 5 add 9
+
+: basic integer expressions with basic operators: subtraction
+int diff -> 8 sub 1
+
+: basic integer expressions with basic operators: multiplication
+int prod -> 9 mul 7
+
+: basic integer expressions with basic operators: division
+int result -> 8 div 2
+
+: basic integer expressions with basic operators: modulus
+int remainder -> 7 mod 2
+
+: variables that can be booleans
+bool isSunny -> T
+bool isCold -> F
+
+: boolean expressions with basic operation: and
+bool isSunnyAndCold -> isSunny and isCold
+
+: boolean expressions with basic operation: not
+bool isCloudy -> not T
+
+: boolean expressions with basic operation: or
+bool isSunnyOrCold -> isSunny or isCold
+
+: boolean expressions with comparison operator: gt
+bool greaterThan -> 5 gt 3
+
+: boolean expressions with comparison operator: lt
+bool lessThan -> 2 lt 3
+
+: boolean expressions with comparison operator: equals
+bool equalComparison -> 5 equals 3
+
+: variables that can be Strings
+string x -> \\This is an example of a string\\
+
+: variables that can be Strings
+string strVariable1 -> x add \\The source lines of the new language are parsed\\
+
+: variables that can be Strings
+string strVariable2 -> \\This java file is generated\\ add \\by the translator\\
+
+:printing to output
+*Parser and Translator are working!*
+
+:printing to output
+*This is another example of printing to output!*
+
+: command line arguments
+string var0 -> \\The new language supports command line args:\\ add <cmdline0>
+
+: command line arguments
+string var1 -> \\This is an example of command line args:\\ add <cmdline1>
