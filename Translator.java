@@ -42,8 +42,6 @@ public class Translator {
 		outputStr += filename.substring(0, filename.lastIndexOf('.')) + " {\n";
 		outputStr += "\n\tpublic static void main(String[] args) {\n";
 
-		System.out.println("\nTranslating source file: " + filename);
-
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File(filename));

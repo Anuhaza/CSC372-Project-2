@@ -22,28 +22,28 @@ bool isValid -> T
 bool isSorted -> F
 
 : boolean expressions with basic operation: and
-bool isSortedAndValid -> isValid and IsSorted
+bool isSortedAndValid -> isValid and isSorted
 
 : boolean expressions with basic operation: not
-bool result -> not T
+bool answer -> not T
 
 : boolean expressions with basic operation: or
-bool isSortedOrValid -> isValid or IsSorted
+bool isSortedOrValid -> isValid or isSorted
 
 : boolean expressions with comparison operator: gt
-bool invalid -> 5 gt 3
+bool comparison1 -> 5 gt 3
 
 : boolean expressions with comparison operator: lt
-bool invalid -> 2 lt 3
+bool comparison2 -> 2 lt 3
 
 : boolean expressions with comparison operator: equals
-bool invalid -> 5 equals 3
+bool comparison3 -> 5 equals 3
 
 : variables that can be Strings
-string variable -> x add \\hi\\
+string strVariable1 -> x add \\hi\\
 
 : variables that can be Strings
-string variable -> \\hello\\ add \\world\\
+string strVariable2 -> \\hello\\ add \\world\\
 
 :printing to output
 *Parser and Translator are working!*
