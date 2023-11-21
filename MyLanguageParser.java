@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
 public class MyLanguageParser {
 	private List<String> tokens;
 	private int currentTokenIndex;
+	private int nestedLoopCount = 0;
 
 	public MyLanguageParser(String inputStatement) {
 		this.tokens = tokenizeInput(inputStatement);
@@ -120,6 +121,8 @@ public class MyLanguageParser {
 		String throughToken = getNextToken();
 		String loopStart = getNextToken();
 		String loopEnd = getNextToken();
+		
+		nestedLoopCount++;
 
 		String outputStr = Translator.translateFirstToken(firstToken);
 
@@ -137,15 +140,37 @@ public class MyLanguageParser {
 			throw new ParseException("Syntax Error: 'loops through' tokens expected");
 		}
 		
-		// Sample new lang source line: 
-		//		as int i loops through (0, 5), x -> x add 1
 		if (!loopStart.startsWith("(")) {
 			throw new ParseException("Syntax Error: '(' token expected");
 		}
 		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
-		outputStr += " {   } " ;
+		outputStr += " {\n\t\t" ;
 
+		int nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		String line = "";
+		while(true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
+
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
+
+		outputStr += parse();
+		
+		outputStr += ";\n\t\t";
+		nestedLoops = nestedLoopCount-1;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+		outputStr += "}";
+		
+		nestedLoopCount--;
 		return outputStr;
 
 	}

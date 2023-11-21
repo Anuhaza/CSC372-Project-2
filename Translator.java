@@ -60,7 +60,7 @@ public class Translator {
 				continue;
 			}
 
-			MyLanguageParser parser1 = new MyLanguageParser(line);
+			MyLanguageParser parser = new MyLanguageParser(line);
 			try {
 				outputStr += "\t\t";
 
@@ -68,11 +68,11 @@ public class Translator {
 				if (line.startsWith("*") && line.endsWith("*")) {
 					outputStr += translateFirstToken(line);
 				} else {
-					outputStr += parser1.parse();
+					outputStr += parser.parse();
 				}
 				outputStr += ";\n";
 			} catch (Exception e) {
-				System.err.println("Error parsing input 1: " + e.getMessage());
+				System.err.println("Error parsing input:" + e.getMessage());
 			}
 		}
 
@@ -94,30 +94,6 @@ public class Translator {
 
 		String outputFileContents = parseSource(args[0]);
 		System.out.println(outputFileContents);
-	}
-
-	/**
-	 * Generate output file
-	 * 
-	 * @param filename,          the source file name
-	 * @param outputFileContent, the translator string contents of the output file
-	 */
-	private static void outputFile(String filename, String outputFileContents) {
-
-		String name = filename.substring(0, filename.lastIndexOf('.'));
-		String outputFileName = name + OUTPUT_FILE_EXTENSION;
-
-		try {
-			// create new output file
-			FileWriter myWriter = new FileWriter(new File(outputFileName));
-
-			// write the contents into the Java output file
-			myWriter.write(outputFileContents);
-			myWriter.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
