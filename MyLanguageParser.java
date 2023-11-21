@@ -137,7 +137,53 @@ public class MyLanguageParser {
 
 		outputStr += parse();
 		
-		outputStr += ";\n\t\t}";
+		outputStr += ";\n\t\t";
+		
+		String squareBracketClosed = getNextToken();
+		String elseToken = getNextToken();
+		if (!squareBracketClosed.equals("]")) {
+			throw new ParseException("Syntax Error: ']' token expected");
+		}
+		outputStr += Translator.translateConditional(squareBracketClosed);
+		
+		if (!elseToken.equals("else")) {
+			throw new ParseException("Syntax Error: 'else' token expected");
+		}
+		outputStr += Translator.translateConditional(elseToken);
+		
+		squareBracketOpen = getNextToken();
+		
+		if (!squareBracketOpen.equals("[")) {
+			throw new ParseException("Syntax Error: '[' token expected");
+		}
+		outputStr += Translator.translateConditional(squareBracketOpen);
+		outputStr += " \n\t\t" ;
+
+		// add tabs based on number of nested loops
+		nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		line = "";
+		while(true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
+
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
+
+		outputStr += parse();
+		
+		outputStr += ";\n\t\t";
+		
+		squareBracketClosed = getNextToken();
+		if (!squareBracketClosed.equals("]")) {
+			throw new ParseException("Syntax Error: ']' token expected");
+		}
+		outputStr += Translator.translateConditional(squareBracketClosed);
 		
 		// add tabs based on number of nested loops
 		nestedLoops = nestedLoopCount-1;
