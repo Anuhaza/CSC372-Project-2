@@ -239,6 +239,9 @@ public class Translator {
 			return retStr;
 		}
 
+		if (value.equals("as"))
+			return "for (";
+		
 		return SYNTAX_ERROR;
 	}
 
@@ -271,6 +274,7 @@ public class Translator {
 				return "args[" + value.substring(8, 9) + "]";
 		}
 
+		
 		return SYNTAX_ERROR;
 	}
 }

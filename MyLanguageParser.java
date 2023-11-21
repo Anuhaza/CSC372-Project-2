@@ -26,7 +26,7 @@ public class MyLanguageParser {
 	 */
 	public static void main(String[] args) {
 		// Example input statements
-		String inputStatement1 = "bool invalid -> 5 gt 3";
+		String inputStatement1 = "as int i loops through (0, 10), x -> x add 1";
 		String inputStatement2 = "string variable -> x add \\hi\\";
 
 		MyLanguageParser parser1 = new MyLanguageParser(inputStatement1);
@@ -96,12 +96,58 @@ public class MyLanguageParser {
 				return strstmt(token);
 			case "bool":
 				return boolstmt(token);
+			case "as":
+				return forloop(token);
 			default:
 				throw new ParseException("Syntax Error: Unexpected token: " + token);
 			}
 		}
 
 		return "Syntax error";
+	}
+
+	/**
+	 * Parser for forloop
+	 * 
+	 * @param String, the first token in the production
+	 * @return String, the parsed and translated string
+	 * @throws ParseException
+	 */
+	private String forloop(String firstToken) throws ParseException {
+		String intToken = getNextToken();
+		String variable = getNextToken();
+		String loopsToken = getNextToken();
+		String throughToken = getNextToken();
+		String loopStart = getNextToken();
+		String loopEnd = getNextToken();
+
+		String outputStr = Translator.translateFirstToken(firstToken);
+
+		if (!intToken.equals("int")) {
+			throw new ParseException("Syntax Error: int token expected");
+		}
+		outputStr += intToken + " ";
+		
+		if (!isVariable(variable)) {
+			throw new ParseException("Syntax Error: variable name expected");
+		}
+		outputStr += variable + " = ";
+		
+		if (!loopsToken.equals("loops") || !throughToken.equals("through")) {
+			throw new ParseException("Syntax Error: 'loops through' tokens expected");
+		}
+		
+		// Sample new lang source line: 
+		//		as int i loops through (0, 5), x -> x add 1
+		if (!loopStart.startsWith("(")) {
+			throw new ParseException("Syntax Error: '(' token expected");
+		}
+		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
+		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
+		outputStr += " {   } " ;
+
+		return outputStr;
+
 	}
 
 	/**

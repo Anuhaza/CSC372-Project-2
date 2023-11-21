@@ -53,3 +53,9 @@ string var0 -> \\First command line argument is:\\ add <cmdline0>
 
 : command line arguments
 string var1 -> \\Second command line argument is:\\ add <cmdline1>
+
+: loop with block
+as int i loops through (0, 9), int x -> x add 1
+
+: nested loop with block
+as int i loops through (0, 9), as int j loops through (2, 4), x -> x add 2
