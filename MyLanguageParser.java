@@ -4,7 +4,7 @@
  * FILE: MyLanguageParser.java
  * ASSIGNMENT: Project 2
  * COURSE: CSC 372 Fall 2023
- * Description: This file contains parser for the new language
+ * Description: This file contains parser for the our new programming language
  */
 import java.util.ArrayList;
 import java.util.List;
@@ -15,37 +15,14 @@ public class MyLanguageParser {
 	private int currentTokenIndex;
 	private int nestedLoopCount = 0;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param inputStatement, String source line of our new programming language
+	 */
 	public MyLanguageParser(String inputStatement) {
 		this.tokens = tokenizeInput(inputStatement);
 		this.currentTokenIndex = 0;
-	}
-
-	/**
-	 * Main method
-	 * 
-	 * @param args, String cmd line args (not used here)
-	 */
-	public static void main(String[] args) {
-		// Example input statements
-		String inputStatement1 = "as int i loops through (0, 10), x -> x add 1";
-		String inputStatement2 = "string variable -> x add \\hi\\";
-
-		MyLanguageParser parser1 = new MyLanguageParser(inputStatement1);
-		MyLanguageParser parser2 = new MyLanguageParser(inputStatement2);
-
-		try {
-			System.out.println("Parsing input 1:");
-			parser1.parse();
-		} catch (ParseException e) {
-			System.err.println("Error parsing input 1: " + e.getMessage());
-		}
-
-		try {
-			System.out.println("\nParsing input 2:");
-			parser2.parse();
-		} catch (ParseException e) {
-			System.err.println("Error parsing input 2: " + e.getMessage());
-		}
 	}
 
 	/**
@@ -147,6 +124,7 @@ public class MyLanguageParser {
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
 		outputStr += " {\n\t\t" ;
 
+		// add tabs based on number of nested loops
 		int nestedLoops = nestedLoopCount;
 		while (nestedLoops-- > 0)
 			outputStr += "\t";
@@ -165,9 +143,12 @@ public class MyLanguageParser {
 		outputStr += parse();
 		
 		outputStr += ";\n\t\t";
+		
+		// add tabs based on number of nested loops
 		nestedLoops = nestedLoopCount-1;
 		while (nestedLoops-- > 0)
 			outputStr += "\t";
+		
 		outputStr += "}";
 		
 		nestedLoopCount--;
