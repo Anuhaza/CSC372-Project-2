@@ -30,14 +30,14 @@ bool isCloudy -> not T
 : boolean expressions with basic operation: or
 bool isSunnyOrCold -> isSunny or isCold
 
-: boolean expressions with comparison operator: gt
-bool greaterThan -> 5 gt 3
+: boolean expressions with comparison operator: gte
+bool greaterThan -> 5 gte 3
 
-: boolean expressions with comparison operator: lt
-bool lessThan -> 2 lt 3
+: boolean expressions with comparison operator: lte
+bool lessThan -> 2 lte 3
 
-: boolean expressions with comparison operator: equals
-bool equalComparison -> 5 equals 3
+: boolean expressions with comparison operator: notequals
+bool equalComparison -> 5 notequals 3
 
 : variables that can be Strings
 string x -> \\This is an example of a string\\

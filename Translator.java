@@ -180,6 +180,15 @@ public class Translator {
 
 		if (value.equals("equals"))
 			return "== ";
+		
+		if (value.equals("gte"))
+			return ">= ";
+
+		if (value.equals("lte"))
+			return "<= ";
+
+		if (value.equals("notequals"))
+			return "!= ";
 
 		return SYNTAX_ERROR;
 	}

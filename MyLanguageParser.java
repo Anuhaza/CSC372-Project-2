@@ -15,10 +15,9 @@ public class MyLanguageParser {
 	private int currentTokenIndex;
 	private int nestedLoopCount = 0;
 	private int nestedConditionalCount = 0;
-	
+
 	private final String SYNTAX_ERROR = "Syntax Error: ";
 	private final String INVALID_VARIABLE_NAME = "Invalid variable name (must start with char)";
-
 
 	/**
 	 * Constructor
@@ -190,7 +189,7 @@ public class MyLanguageParser {
 		outputStr += ";\n\t\t";
 
 		// add tabs based on number of nested loops
-		nestedConditionals = nestedConditionalCount-1;
+		nestedConditionals = nestedConditionalCount - 1;
 		while (nestedConditionals-- > 0)
 			outputStr += "\t";
 
@@ -288,7 +287,7 @@ public class MyLanguageParser {
 		String assign = getNextToken();
 		String value1 = getNextToken();
 		String outputStr = Translator.translateFirstToken(firstToken);
-		
+
 		if (!isVariable(variable)) {
 			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
 		}
@@ -299,7 +298,6 @@ public class MyLanguageParser {
 		if (!isInteger(value1) && !isVariable(value1)) {
 			throw new ParseException(SYNTAX_ERROR + "Invalid integer values");
 		}
-		
 
 		outputStr += variable + " ";
 		outputStr += Translator.translateAssign(assign); // translate "->"
@@ -334,7 +332,7 @@ public class MyLanguageParser {
 		if (!isVariable(variable)) {
 			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
 		}
-		
+
 		if (!assign.equals("->")) {
 			throw new ParseException(SYNTAX_ERROR + "Expected '->' after variable declaration");
 		}
@@ -549,7 +547,8 @@ public class MyLanguageParser {
 	 * @return boolean, true if passed String is a comparator, false otherwise
 	 */
 	private boolean isComparison(String token) {
-		return token.equals("gt") || token.equals("lt") || token.equals("equals");
+		return token.equals("gt") || token.equals("lt") || token.equals("equals") || token.equals("gte")
+				|| token.equals("lte") || token.equals("notequals");
 	}
 
 	/**
