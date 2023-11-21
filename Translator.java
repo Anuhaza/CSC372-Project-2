@@ -185,6 +185,29 @@ public class Translator {
 	}
 
 	/**
+	 * Translate conditional operator from new language to Java
+	 * 
+	 * @param op, String conditional operator to translate
+	 * @return String, the translated String conditional operator
+	 */
+	public static String translateConditional(String value) {
+		if (value.equals("then"))
+			return "";
+
+		if (value.equals("else"))
+			return "else ";
+		
+		if (value.equals("["))
+			return "{ ";
+
+		if (value.equals("]"))
+			return "} ";
+
+
+		return SYNTAX_ERROR;
+	}
+	
+	/**
 	 * Translate first production token from new language to Java
 	 * 
 	 * @param op, String first production token to translate
@@ -212,6 +235,9 @@ public class Translator {
 
 		if (value.equals("as"))
 			return "for (";
+		
+		if (value.equals("if"))
+			return "if (";
 		
 		return SYNTAX_ERROR;
 	}

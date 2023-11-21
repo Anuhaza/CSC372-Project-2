@@ -76,12 +76,77 @@ public class MyLanguageParser {
 				return boolstmt(token);
 			case "as":
 				return forloop(token);
+			case "if":
+				return fullif(token);
 			default:
 				throw new ParseException("Syntax Error: Unexpected token: " + token);
 			}
 		}
 
 		return "Syntax error";
+	}
+
+	/**
+	 * Parser for fullif
+	 * 
+	 * @param String, the first token in the production
+	 * @return String, the parsed and translated string
+	 * @throws ParseException
+	 */
+	private String fullif(String firstToken) throws ParseException {
+		String variable = getNextToken();
+		String then = getNextToken();
+		String squareBracketOpen = getNextToken();
+		
+		nestedLoopCount++;
+
+		String outputStr = Translator.translateFirstToken(firstToken);
+		
+		if (!isVariable(variable)) {
+			throw new ParseException("Syntax Error: logical variable name expected");
+		}
+		outputStr += variable + ") ";
+		
+		if (!then.equals("then")) {
+			throw new ParseException("Syntax Error: 'then' token expected");
+		}
+		outputStr += Translator.translateConditional(then);
+		
+		if (!squareBracketOpen.equals("[")) {
+			throw new ParseException("Syntax Error: '[' token expected");
+		}
+		outputStr += Translator.translateConditional(squareBracketOpen);
+		
+		outputStr += " \n\t\t" ;
+
+		// add tabs based on number of nested loops
+		int nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		String line = "";
+		while(true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
+
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
+
+		outputStr += parse();
+		
+		outputStr += ";\n\t\t}";
+		
+		// add tabs based on number of nested loops
+		nestedLoops = nestedLoopCount-1;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		
+		nestedLoopCount--;
+		return outputStr;
 	}
 
 	/**

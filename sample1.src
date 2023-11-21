@@ -65,3 +65,6 @@ as int i loops through (0, 9), as int j loops through (2, 4), as int k loops thr
 
 :printing to output
 *nested loop with block is working!*
+
+:conditional
+ if comparison1 then [ string str -> \\then\\ add \\block\\ ] else [ string str -> \\else\\ add \\block\\ ]
