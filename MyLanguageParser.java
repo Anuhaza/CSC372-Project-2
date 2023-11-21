@@ -15,6 +15,10 @@ public class MyLanguageParser {
 	private int currentTokenIndex;
 	private int nestedLoopCount = 0;
 	private int nestedConditionalCount = 0;
+	
+	private final String SYNTAX_ERROR = "Syntax Error: ";
+	private final String INVALID_VARIABLE_NAME = "Invalid variable name (must start with char)";
+
 
 	/**
 	 * Constructor
@@ -80,7 +84,7 @@ public class MyLanguageParser {
 			case "if":
 				return fullif(token);
 			default:
-				throw new ParseException("Syntax Error: Unexpected token: " + token);
+				throw new ParseException(SYNTAX_ERROR + "Unexpected token: " + token);
 			}
 		}
 
@@ -104,17 +108,17 @@ public class MyLanguageParser {
 		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!isVariable(variable)) {
-			throw new ParseException("Syntax Error: logical variable name expected");
+			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
 		}
 		outputStr += variable + ") ";
 
 		if (!then.equals("then")) {
-			throw new ParseException("Syntax Error: 'then' token expected");
+			throw new ParseException(SYNTAX_ERROR + "'then' token expected");
 		}
 		outputStr += Translator.translateConditional(then);
 
 		if (!squareBracketOpen.equals("[")) {
-			throw new ParseException("Syntax Error: '[' token expected");
+			throw new ParseException(SYNTAX_ERROR + "'[' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketOpen);
 
@@ -148,19 +152,19 @@ public class MyLanguageParser {
 		String squareBracketClosed = getNextToken();
 		String elseToken = getNextToken();
 		if (!squareBracketClosed.equals("]")) {
-			throw new ParseException("Syntax Error: ']' token expected");
+			throw new ParseException(SYNTAX_ERROR + "']' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
 
 		if (!elseToken.equals("else")) {
-			throw new ParseException("Syntax Error: 'else' token expected");
+			throw new ParseException(SYNTAX_ERROR + "'else' token expected");
 		}
 		outputStr += Translator.translateConditional(elseToken);
 
 		squareBracketOpen = getNextToken();
 
 		if (!squareBracketOpen.equals("[")) {
-			throw new ParseException("Syntax Error: '[' token expected");
+			throw new ParseException(SYNTAX_ERROR + "'[' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketOpen);
 		outputStr += " \n\t\t";
@@ -192,7 +196,7 @@ public class MyLanguageParser {
 
 		squareBracketClosed = getNextToken();
 		if (!squareBracketClosed.equals("]")) {
-			throw new ParseException("Syntax Error: ']' token expected");
+			throw new ParseException(SYNTAX_ERROR + "']' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
 
@@ -220,21 +224,21 @@ public class MyLanguageParser {
 		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!intToken.equals("int")) {
-			throw new ParseException("Syntax Error: int token expected");
+			throw new ParseException(SYNTAX_ERROR + "int token expected");
 		}
 		outputStr += intToken + " ";
 
 		if (!isVariable(variable)) {
-			throw new ParseException("Syntax Error: variable name expected");
+			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
 		}
 		outputStr += variable + " = ";
 
 		if (!loopsToken.equals("loops") || !throughToken.equals("through")) {
-			throw new ParseException("Syntax Error: 'loops through' tokens expected");
+			throw new ParseException(SYNTAX_ERROR + "'loops through' tokens expected");
 		}
 
 		if (!loopStart.startsWith("(")) {
-			throw new ParseException("Syntax Error: '(' token expected");
+			throw new ParseException(SYNTAX_ERROR + "'(' token expected");
 		}
 		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
@@ -284,13 +288,18 @@ public class MyLanguageParser {
 		String assign = getNextToken();
 		String value1 = getNextToken();
 		String outputStr = Translator.translateFirstToken(firstToken);
+		
+		if (!isVariable(variable)) {
+			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
+		}
 
 		if (!assign.equals("->")) {
-			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
+			throw new ParseException(SYNTAX_ERROR + "Expected '->' after variable declaration");
 		}
 		if (!isInteger(value1) && !isVariable(value1)) {
-			throw new ParseException("Syntax Error: Invalid integer values");
+			throw new ParseException(SYNTAX_ERROR + "Invalid integer values");
 		}
+		
 
 		outputStr += variable + " ";
 		outputStr += Translator.translateAssign(assign); // translate "->"
@@ -300,7 +309,7 @@ public class MyLanguageParser {
 		if (op != null) {
 			String value2 = getNextToken();
 			if (value2 == null || !isInteger(value2) && !isVariable(value2)) {
-				throw new ParseException("Missing second operand for arithmetic operation");
+				throw new ParseException(SYNTAX_ERROR + "Missing second operand for arithmetic operation");
 			}
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
@@ -322,12 +331,16 @@ public class MyLanguageParser {
 		String value1 = getNextToken();
 		String outputStr = Translator.translateFirstToken(firstToken);
 
+		if (!isVariable(variable)) {
+			throw new ParseException(SYNTAX_ERROR + INVALID_VARIABLE_NAME);
+		}
+		
 		if (!assign.equals("->")) {
-			throw new ParseException("Syntax Error: Expected '->' after variable declaration");
+			throw new ParseException(SYNTAX_ERROR + "Expected '->' after variable declaration");
 		}
 
 		if (!isDecimal(value1) && !isVariable(value1)) {
-			throw new ParseException("Invalid decimal values");
+			throw new ParseException(SYNTAX_ERROR + "Invalid decimal values");
 		}
 
 		outputStr += variable + " ";
@@ -338,7 +351,7 @@ public class MyLanguageParser {
 		if (op != null) {
 			String value2 = getNextToken();
 			if (value2 == null || !isDecimal(value2) && !isVariable(value2)) {
-				throw new ParseException("Missing correct second operand for arithmetic operation");
+				throw new ParseException(SYNTAX_ERROR + "Missing correct second operand for arithmetic operation");
 			}
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
@@ -361,11 +374,11 @@ public class MyLanguageParser {
 		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
-			throw new ParseException("Expected '->' after string declaration");
+			throw new ParseException(SYNTAX_ERROR + "Expected '->' after string declaration");
 		}
 
 		if (value1 == null || (!value1.startsWith("\\")) && !isVariable(value1)) {
-			throw new ParseException("String value must be enclosed in backslashes");
+			throw new ParseException(SYNTAX_ERROR + "String value must be enclosed in backslashes");
 		}
 
 		while (!isVariable(value1) && (!value1.endsWith("\\"))) {
@@ -376,7 +389,7 @@ public class MyLanguageParser {
 		}
 
 		if (!isVariable(value1) && !value1.endsWith("\\")) {
-			throw new ParseException("String value must be enclosed in backslashes");
+			throw new ParseException(SYNTAX_ERROR + "String value must be enclosed in backslashes");
 		}
 
 		outputStr += variable + " ";
@@ -389,13 +402,13 @@ public class MyLanguageParser {
 
 		String operation = getNextToken();
 		if (operation != null && !operation.equals("add")) {
-			throw new ParseException("Invalid string operation: " + operation);
+			throw new ParseException(SYNTAX_ERROR + "Invalid string operation: " + operation);
 		}
 
 		if (operation != null) {
 			String value2 = getNextToken();
 			if (value2 == null || (!value2.startsWith("\\")) && !isVariable(value2) && !isCmdLine(value2)) {
-				throw new ParseException("String value must be enclosed in backslashes");
+				throw new ParseException(SYNTAX_ERROR + "String value must be enclosed in backslashes");
 			}
 
 			while (!isVariable(value2) && (!value2.endsWith("\\"))) {
@@ -406,7 +419,7 @@ public class MyLanguageParser {
 			}
 
 			if (!isVariable(value2) && !value2.endsWith("\\") && !isCmdLine(value2)) {
-				throw new ParseException("String value must be enclosed in backslashes");
+				throw new ParseException(SYNTAX_ERROR + "String value must be enclosed in backslashes");
 			}
 			outputStr += Translator.translateOperator(operation);
 			if (isCmdLine(value2)) {
@@ -433,11 +446,11 @@ public class MyLanguageParser {
 		String outputStr = Translator.translateFirstToken(firstToken);
 
 		if (!assign.equals("->")) {
-			throw new ParseException("Syntax Error: Expected '->' after boolean declaration");
+			throw new ParseException(SYNTAX_ERROR + "Expected '->' after boolean declaration");
 		}
 
 		if (value == null) {
-			throw new ParseException("Syntax Error: Invalid boolean value or statement");
+			throw new ParseException(SYNTAX_ERROR + "Invalid boolean value or statement");
 		}
 
 		outputStr += variable + " ";
@@ -447,7 +460,7 @@ public class MyLanguageParser {
 			if (value.equals("not")) {
 				String value2 = getNextToken();
 				if (value2 == null || !value2.equals("T") && !value2.equals("F")) {
-					throw new ParseException("Syntax Error: boolean value must follow not.");
+					throw new ParseException(SYNTAX_ERROR + "boolean value must follow not.");
 				}
 				outputStr += Translator.translateLogical(value);
 				outputStr += Translator.translateBoolean(value2);
@@ -455,11 +468,11 @@ public class MyLanguageParser {
 			} else if (isVariable(value)) {
 				String operator = getNextToken();
 				if (operator == null || !isLogical(operator)) {
-					throw new ParseException("Syntax Error: Operator needs to be logical based.");
+					throw new ParseException(SYNTAX_ERROR + "Operator needs to be logical based.");
 				}
 				String value2 = getNextToken();
 				if (!isVariable(value)) {
-					throw new ParseException("Syntax Error: Second operand is not a variable.");
+					throw new ParseException(SYNTAX_ERROR + "Second operand is not a variable.");
 				}
 
 				outputStr += value + " ";
@@ -469,18 +482,18 @@ public class MyLanguageParser {
 			} else if (isDecimal(value) || isInteger(value)) {
 				String operator = getNextToken();
 				if (operator == null || !isComparison(operator)) {
-					throw new ParseException("Operator needs to be comparison based.");
+					throw new ParseException(SYNTAX_ERROR + "Operator needs to be comparison based.");
 				}
 				String value2 = getNextToken();
 				if (!isDecimal(value2) && !isInteger(value2) && !isVariable(value2)) {
-					throw new ParseException("Second operand is not comparison based.");
+					throw new ParseException(SYNTAX_ERROR + "Second operand is not comparison based.");
 				}
 				outputStr += value + " ";
 				outputStr += Translator.translateComparison(operator);
 				outputStr += value2;
 
 			} else {
-				throw new ParseException("First operand is not comparison based or a boolean value.");
+				throw new ParseException(SYNTAX_ERROR + "First operand is not comparison based or a boolean value.");
 			}
 		} else {
 			String operator = getNextToken();
@@ -488,11 +501,11 @@ public class MyLanguageParser {
 				outputStr += Translator.translateBoolean(value);
 			} else {
 				if (!isLogical(operator)) {
-					throw new ParseException("Operand is not logical.");
+					throw new ParseException(SYNTAX_ERROR + "Operand is not logical.");
 				}
 				String value2 = getNextToken();
 				if (value2 == null || !isVariable(value) && !isVariable(value2)) {
-					throw new ParseException("Second value is not a boolean value.");
+					throw new ParseException(SYNTAX_ERROR + "Second value is not a boolean value.");
 				}
 
 				outputStr += value;

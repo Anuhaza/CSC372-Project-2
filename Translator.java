@@ -67,7 +67,7 @@ public class Translator {
 				}
 				outputStr += ";\n";
 			} catch (Exception e) {
-				System.err.println("Error parsing input:" + e.getMessage());
+				System.err.println(e.getMessage());
 			}
 		}
 

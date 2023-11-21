@@ -40,6 +40,9 @@ bool comparison2 -> 2 lt 3
 bool comparison3 -> 5 equals 3
 
 : variables that can be Strings
+string strVariable1 -> \\New language\\
+
+: variables that can be Strings
 string strVariable1 -> x add \\hi\\
 
 : variables that can be Strings
