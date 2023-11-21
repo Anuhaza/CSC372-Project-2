@@ -67,4 +67,16 @@ as int i loops through (0, 9), as int j loops through (2, 4), as int k loops thr
 *nested loop with block is working!*
 
 :conditional
- if comparison1 then [ string str -> \\then\\ add \\block\\ ] else [ string str -> \\else\\ add \\block\\ ]
+if comparison1 then [ string str -> \\then\\ add \\block\\ ] else [ string str -> \\else\\ add \\block\\ ]
+
+:conditional
+if comparison2 then [ int sum1 -> 1 add 2 ] else [ int sum2 -> 1 add 2 ]
+
+:printing to output
+*conditional with block is working!*
+
+:nested conditional
+if comparison2 then [ if comparison3 then [ int sum1 -> 1 add 2 ] else [ int sum2 -> 1 add 2 ] ] else [ int sum2 -> 1 add 2 ]
+
+:printing to output
+*nested conditional with block is working!*

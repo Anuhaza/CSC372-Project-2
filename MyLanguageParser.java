@@ -14,6 +14,7 @@ public class MyLanguageParser {
 	private List<String> tokens;
 	private int currentTokenIndex;
 	private int nestedLoopCount = 0;
+	private int nestedConditionalCount = 0;
 
 	/**
 	 * Constructor
@@ -97,35 +98,35 @@ public class MyLanguageParser {
 		String variable = getNextToken();
 		String then = getNextToken();
 		String squareBracketOpen = getNextToken();
-		
-		nestedLoopCount++;
+
+		nestedConditionalCount++;
 
 		String outputStr = Translator.translateFirstToken(firstToken);
-		
+
 		if (!isVariable(variable)) {
 			throw new ParseException("Syntax Error: logical variable name expected");
 		}
 		outputStr += variable + ") ";
-		
+
 		if (!then.equals("then")) {
 			throw new ParseException("Syntax Error: 'then' token expected");
 		}
 		outputStr += Translator.translateConditional(then);
-		
+
 		if (!squareBracketOpen.equals("[")) {
 			throw new ParseException("Syntax Error: '[' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketOpen);
-		
-		outputStr += " \n\t\t" ;
+
+		outputStr += " \n\t\t";
 
 		// add tabs based on number of nested loops
-		int nestedLoops = nestedLoopCount;
-		while (nestedLoops-- > 0)
+		int nestedConditionals = nestedConditionalCount;
+		while (nestedConditionals-- > 0)
 			outputStr += "\t";
 
 		String line = "";
-		while(true) {
+		while (true) {
 			String nextToken = getNextToken();
 			if (nextToken == null)
 				break;
@@ -136,36 +137,41 @@ public class MyLanguageParser {
 		this.currentTokenIndex = 0;
 
 		outputStr += parse();
-		
+
 		outputStr += ";\n\t\t";
-		
+
+		// add tabs based on number of nested loops
+		nestedConditionals = nestedConditionalCount - 1;
+		while (nestedConditionals-- > 0)
+			outputStr += "\t";
+
 		String squareBracketClosed = getNextToken();
 		String elseToken = getNextToken();
 		if (!squareBracketClosed.equals("]")) {
 			throw new ParseException("Syntax Error: ']' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
-		
+
 		if (!elseToken.equals("else")) {
 			throw new ParseException("Syntax Error: 'else' token expected");
 		}
 		outputStr += Translator.translateConditional(elseToken);
-		
+
 		squareBracketOpen = getNextToken();
-		
+
 		if (!squareBracketOpen.equals("[")) {
 			throw new ParseException("Syntax Error: '[' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketOpen);
-		outputStr += " \n\t\t" ;
+		outputStr += " \n\t\t";
 
 		// add tabs based on number of nested loops
-		nestedLoops = nestedLoopCount;
-		while (nestedLoops-- > 0)
+		nestedConditionals = nestedConditionalCount;
+		while (nestedConditionals-- > 0)
 			outputStr += "\t";
 
 		line = "";
-		while(true) {
+		while (true) {
 			String nextToken = getNextToken();
 			if (nextToken == null)
 				break;
@@ -176,22 +182,21 @@ public class MyLanguageParser {
 		this.currentTokenIndex = 0;
 
 		outputStr += parse();
-		
+
 		outputStr += ";\n\t\t";
-		
+
+		// add tabs based on number of nested loops
+		nestedConditionals = nestedConditionalCount-1;
+		while (nestedConditionals-- > 0)
+			outputStr += "\t";
+
 		squareBracketClosed = getNextToken();
 		if (!squareBracketClosed.equals("]")) {
 			throw new ParseException("Syntax Error: ']' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
-		
-		// add tabs based on number of nested loops
-		nestedLoops = nestedLoopCount-1;
-		while (nestedLoops-- > 0)
-			outputStr += "\t";
 
-		
-		nestedLoopCount--;
+		nestedConditionalCount--;
 		return outputStr;
 	}
 
@@ -209,7 +214,7 @@ public class MyLanguageParser {
 		String throughToken = getNextToken();
 		String loopStart = getNextToken();
 		String loopEnd = getNextToken();
-		
+
 		nestedLoopCount++;
 
 		String outputStr = Translator.translateFirstToken(firstToken);
@@ -218,22 +223,22 @@ public class MyLanguageParser {
 			throw new ParseException("Syntax Error: int token expected");
 		}
 		outputStr += intToken + " ";
-		
+
 		if (!isVariable(variable)) {
 			throw new ParseException("Syntax Error: variable name expected");
 		}
 		outputStr += variable + " = ";
-		
+
 		if (!loopsToken.equals("loops") || !throughToken.equals("through")) {
 			throw new ParseException("Syntax Error: 'loops through' tokens expected");
 		}
-		
+
 		if (!loopStart.startsWith("(")) {
 			throw new ParseException("Syntax Error: '(' token expected");
 		}
 		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
-		outputStr += " {\n\t\t" ;
+		outputStr += " {\n\t\t";
 
 		// add tabs based on number of nested loops
 		int nestedLoops = nestedLoopCount;
@@ -241,7 +246,7 @@ public class MyLanguageParser {
 			outputStr += "\t";
 
 		String line = "";
-		while(true) {
+		while (true) {
 			String nextToken = getNextToken();
 			if (nextToken == null)
 				break;
@@ -252,16 +257,16 @@ public class MyLanguageParser {
 		this.currentTokenIndex = 0;
 
 		outputStr += parse();
-		
+
 		outputStr += ";\n\t\t";
-		
+
 		// add tabs based on number of nested loops
-		nestedLoops = nestedLoopCount-1;
+		nestedLoops = nestedLoopCount - 1;
 		while (nestedLoops-- > 0)
 			outputStr += "\t";
-		
+
 		outputStr += "}";
-		
+
 		nestedLoopCount--;
 		return outputStr;
 
