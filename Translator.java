@@ -18,11 +18,12 @@ public class Translator {
 	private static Grammar grammar;
 
 	// File extension for generating output files
-	private static final String SYNTAX_ERROR = "Syntax Error";
+	private static final String SYNTAX_ERROR = "Syntax Error: Line# ";
 
 	private static boolean showParsing = false;
 	private static boolean showGrammar = false;
 	private static boolean showSource = false;
+	private static int lineNumber = 0;
 
 	/**
 	 * Default constructor
@@ -51,6 +52,7 @@ public class Translator {
 		// parse the source file in the new language (line by line)
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
+			lineNumber++;
 			if (showSource)
 				System.out.println(line);
 			if (line.length() == 0)
@@ -61,7 +63,7 @@ public class Translator {
 				continue;
 			}
 
-			MyLanguageParser parser = new MyLanguageParser(line, showParsing);
+			MyLanguageParser parser = new MyLanguageParser(line, showParsing, lineNumber);
 			try {
 				outputStr += "\t\t";
 
@@ -150,7 +152,7 @@ public class Translator {
 		if (op.equals("mod"))
 			return "% ";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected operator " + op;
 	}
 
 	/**
