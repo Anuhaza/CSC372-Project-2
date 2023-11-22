@@ -18,15 +18,19 @@ public class MyLanguageParser {
 
 	private final String SYNTAX_ERROR = "Syntax Error: ";
 	private final String INVALID_VARIABLE_NAME = "Invalid variable name (must start with char)";
+	
+	private boolean showParsing = false;
 
 	/**
 	 * Constructor
 	 * 
 	 * @param inputStatement, String source line of our new programming language
+	 * @param showParsing, boolean true shows parsing information
 	 */
-	public MyLanguageParser(String inputStatement) {
+	public MyLanguageParser(String inputStatement, boolean showParsing) {
 		this.tokens = tokenizeInput(inputStatement);
 		this.currentTokenIndex = 0;
+		this.showParsing = showParsing;
 	}
 
 	/**

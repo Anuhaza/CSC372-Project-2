@@ -15,10 +15,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Translator {
-	// private static Grammar grammar = new Grammar();
+	private static Grammar grammar;
 
 	// File extension for generating output files
 	private static final String SYNTAX_ERROR = "Syntax Error";
+	
+	private static boolean showParsing = false;
+	private static boolean showGrammar = false;
+	private static boolean showSource = false;
 
 	/**
 	 * Default constructor
@@ -47,6 +51,8 @@ public class Translator {
 		// parse the source file in the new language (line by line)
 		while (scanner.hasNext()) {
 			String line = scanner.nextLine();
+			if (showSource)
+				System.out.println(line);
 			if (line.length() == 0)
 				continue;
 
@@ -55,7 +61,7 @@ public class Translator {
 				continue;
 			}
 
-			MyLanguageParser parser = new MyLanguageParser(line);
+			MyLanguageParser parser = new MyLanguageParser(line, showParsing);
 			try {
 				outputStr += "\t\t";
 
@@ -78,7 +84,7 @@ public class Translator {
 	/**
 	 * Main method
 	 * 
-	 * @param args (not used)
+	 * @param args, String array containing command line arguments
 	 */
 	public static void main(String[] args) {
 		// Source file name comes from command line
@@ -86,7 +92,37 @@ public class Translator {
 			System.out.println("Error: Missing source filename in command line args");
 			return;
 		}
+		
+		if (args.length >= 2) {
+			// 2nd cmdline argument “-v” (optional) for verbose mode
+			if (args[1].equals("-v")) {
+				// Verbose mode shows the token parsing process
+				// Debug messages are enabled in this mode showing step by step parsing
+				showParsing = true;
+				System.out.println("Displaying parsing details as '-v' cmdline arg is set");
+			}
+		}
+		
+		if (args.length >= 3) {
+			// 3rd cmdline argument “-g” (optional) for displaying grammar
+			if (args[2].equals("-g")) {
+				//	Grammar productions in the grammar file are displayed
+				//	Users can see the grammar behind the translation process
+				showGrammar = true;
+				System.out.println("Displaying grammar as '-g' cmdline arg is set");
+			}
+		}
+		
+		if (args.length >= 4) {
+			// 4th cmdline arg “-s” (optional) for displaying new lang src file
+			if (args[3].equals("-s")) {
+				//	Users can see the new language source code when using this option
+				showSource = true;
+				System.out.println("Displaying source as '-s' cmdline arg is set");
+			}
+		}	
 
+		grammar = new Grammar(showGrammar);
 		String outputFileContents = parseSource(args[0]);
 		System.out.println(outputFileContents);
 	}

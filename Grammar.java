@@ -24,12 +24,14 @@ public class Grammar {
 	private static HashMap<String, LinkedList<String>> map = new HashMap<>();
 	
 	// debug flag to show parsing of grammar (enabled for now)
-	private static boolean debugGrammar = true;
+	private static boolean showGrammar = false;
  
 	/**
 	 * Default Constructor
+	 * @param showGrammar 
 	 */
-	public Grammar() {
+	public Grammar(boolean showGrammar) {
+		this.showGrammar = showGrammar;
 		parse();
 	}
 
@@ -81,15 +83,14 @@ public class Grammar {
 					}
 
 				}
-			}
-			System.out.println();
-			
-			// display grammar parsing information when debug flag is enabled
-			if (debugGrammar) {
-				System.out.print(symbol + " ::= ");
+			}			
+			// display grammar information when showGrammar is set
+			if (showGrammar) {
+				System.out.print(tokens[0] + " ::= ");
 				for (int i = 0; i < list.size(); i++) {
-					System.out.print("Q[" + i + "]:" + list.get(i) + " ");
+					System.out.print(list.get(i) + " ");
 				}
+				System.out.println();
 			}
 		}
 	}
