@@ -20,6 +20,7 @@ public class MyLanguageParser {
 	private final String INVALID_VARIABLE_NAME = "Invalid variable name (must start with char)";
 	
 	private boolean showParsing = false;
+	private int lineNumber = 0;
 
 	/**
 	 * Constructor
@@ -44,6 +45,9 @@ public class MyLanguageParser {
 		StringTokenizer tokenizer = new StringTokenizer(inputStatement, " ");
 		while (tokenizer.hasMoreTokens()) {
 			tokens.add(tokenizer.nextToken());
+		}
+		if (showParsing) {
+			System.out.println("\tTokens: " + tokens);
 		}
 		return tokens;
 	}
@@ -75,16 +79,28 @@ public class MyLanguageParser {
 		if (token != null) {
 			switch (token) {
 			case "int":
+				if (showParsing)
+					System.out.println("Parsing <int-stmt>");
 				return intstmt(token);
 			case "dec":
+				if (showParsing)
+					System.out.println("Parsing <dec-stmt>");
 				return decstmt(token);
 			case "string":
+				if (showParsing)
+					System.out.println("Parsing <string-stmt>");
 				return strstmt(token);
 			case "bool":
+				if (showParsing)
+					System.out.println("Parsing <bool-stmt>");
 				return boolstmt(token);
 			case "as":
+				if (showParsing)
+					System.out.println("Parsing <for-loop>");
 				return forloop(token);
 			case "if":
+				if (showParsing)
+					System.out.println("Parsing <full-if>");
 				return fullif(token);
 			default:
 				throw new ParseException(SYNTAX_ERROR + "Unexpected token: " + token);
