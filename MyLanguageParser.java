@@ -18,7 +18,7 @@ public class MyLanguageParser {
 
 	private final String SYNTAX_ERROR = "Syntax Error: ";
 	private final String INVALID_VARIABLE_NAME = "Invalid variable name (must start with char)";
-	
+
 	private boolean showParsing = false;
 	private int lineNumber = 0;
 
@@ -26,7 +26,7 @@ public class MyLanguageParser {
 	 * Constructor
 	 * 
 	 * @param inputStatement, String source line of our new programming language
-	 * @param showParsing, boolean true shows parsing information
+	 * @param showParsing,    boolean true shows parsing information
 	 */
 	public MyLanguageParser(String inputStatement, boolean showParsing) {
 		this.tokens = tokenizeInput(inputStatement);
@@ -486,7 +486,7 @@ public class MyLanguageParser {
 			} else if (isVariable(value)) {
 				String operator = getNextToken();
 				if (operator == null || !isLogical(operator)) {
-					throw new ParseException(SYNTAX_ERROR + "Operator needs to be logical based.");
+					throw new ParseException(SYNTAX_ERROR + "Logical operator expected.");
 				}
 				String value2 = getNextToken();
 				if (!isVariable(value)) {
@@ -500,7 +500,7 @@ public class MyLanguageParser {
 			} else if (isDecimal(value) || isInteger(value)) {
 				String operator = getNextToken();
 				if (operator == null || !isComparison(operator)) {
-					throw new ParseException(SYNTAX_ERROR + "Operator needs to be comparison based.");
+					throw new ParseException(SYNTAX_ERROR + "Comparison operator expected.");
 				}
 				String value2 = getNextToken();
 				if (!isDecimal(value2) && !isInteger(value2) && !isVariable(value2)) {
@@ -519,7 +519,7 @@ public class MyLanguageParser {
 				outputStr += Translator.translateBoolean(value);
 			} else {
 				if (!isLogical(operator)) {
-					throw new ParseException(SYNTAX_ERROR + "Operand is not logical.");
+					throw new ParseException(SYNTAX_ERROR + "Logical operator expected.");
 				}
 				String value2 = getNextToken();
 				if (value2 == null || !isVariable(value) && !isVariable(value2)) {

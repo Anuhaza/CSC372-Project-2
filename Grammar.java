@@ -17,21 +17,22 @@ import java.util.Scanner;
 // reads grammar file, builds HashMap of non-terminal symbols to production
 public class Grammar {
 	private static final String filename = "grammar.txt";
-	
+
 	// HashMap containing Grammar
 	// key: non-terminal symbol
 	// value: production string
 	private static HashMap<String, LinkedList<String>> map = new HashMap<>();
-	
+
 	// debug flag to show parsing of grammar (enabled for now)
 	private static boolean showGrammar = false;
- 
+
 	/**
 	 * Default Constructor
-	 * @param showGrammar 
+	 * 
+	 * @param showGrammar
 	 */
-	public Grammar(boolean showGrammar) {
-		this.showGrammar = showGrammar;
+	public Grammar(boolean verbose) {
+		showGrammar = verbose;
 		parse();
 	}
 
@@ -43,7 +44,7 @@ public class Grammar {
 	public HashMap<String, LinkedList<String>> getMap() {
 		return map;
 	}
-	
+
 	/**
 	 * Parses Grammar file to initialize HashMap containing productions
 	 */
@@ -83,7 +84,7 @@ public class Grammar {
 					}
 
 				}
-			}			
+			}
 			// display grammar information when showGrammar is set
 			if (showGrammar) {
 				System.out.print(tokens[0] + " ::= ");

@@ -19,7 +19,7 @@ public class Translator {
 
 	// File extension for generating output files
 	private static final String SYNTAX_ERROR = "Syntax Error";
-	
+
 	private static boolean showParsing = false;
 	private static boolean showGrammar = false;
 	private static boolean showSource = false;
@@ -92,7 +92,7 @@ public class Translator {
 			System.out.println("Error: Missing source filename in command line args");
 			return;
 		}
-		
+
 		if (args.length >= 2) {
 			// 2nd cmdline argument “-v” (optional) for verbose mode
 			if (args[1].equals("-v")) {
@@ -102,25 +102,25 @@ public class Translator {
 				System.out.println("Displaying parsing details as '-v' cmdline arg is set");
 			}
 		}
-		
+
 		if (args.length >= 3) {
 			// 3rd cmdline argument “-g” (optional) for displaying grammar
 			if (args[2].equals("-g")) {
-				//	Grammar productions in the grammar file are displayed
-				//	Users can see the grammar behind the translation process
+				// Grammar productions in the grammar file are displayed
+				// Users can see the grammar behind the translation process
 				showGrammar = true;
 				System.out.println("Displaying grammar as '-g' cmdline arg is set");
 			}
 		}
-		
+
 		if (args.length >= 4) {
 			// 4th cmdline arg “-s” (optional) for displaying new lang src file
 			if (args[3].equals("-s")) {
-				//	Users can see the new language source code when using this option
+				// Users can see the new language source code when using this option
 				showSource = true;
 				System.out.println("Displaying source as '-s' cmdline arg is set");
 			}
-		}	
+		}
 
 		grammar = new Grammar(showGrammar);
 		String outputFileContents = parseSource(args[0]);
@@ -216,7 +216,7 @@ public class Translator {
 
 		if (value.equals("equals"))
 			return "== ";
-		
+
 		if (value.equals("gte"))
 			return ">= ";
 
@@ -241,17 +241,16 @@ public class Translator {
 
 		if (value.equals("else"))
 			return "else ";
-		
+
 		if (value.equals("["))
 			return "{ ";
 
 		if (value.equals("]"))
 			return "} ";
 
-
 		return SYNTAX_ERROR;
 	}
-	
+
 	/**
 	 * Translate first production token from new language to Java
 	 * 
@@ -280,10 +279,10 @@ public class Translator {
 
 		if (value.equals("as"))
 			return "for (";
-		
+
 		if (value.equals("if"))
 			return "if (";
-		
+
 		return SYNTAX_ERROR;
 	}
 
