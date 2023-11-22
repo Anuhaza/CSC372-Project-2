@@ -165,7 +165,7 @@ public class Translator {
 		if (assign.equals("->"))
 			return "= ";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected assign token " + assign;
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class Translator {
 		if (value.equals("F"))
 			return "false";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected boolean value " + value;
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class Translator {
 		if (value.equals("not"))
 			return "!";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected logical operator " + value;
 	}
 
 	/**
@@ -228,7 +228,7 @@ public class Translator {
 		if (value.equals("notequals"))
 			return "!= ";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected comparison operator " + value;
 	}
 
 	/**
@@ -250,7 +250,7 @@ public class Translator {
 		if (value.equals("]"))
 			return "} ";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected conditional token " + value;
 	}
 
 	/**
@@ -285,7 +285,7 @@ public class Translator {
 		if (value.equals("if"))
 			return "if (";
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected first token " + value;
 	}
 
 	/**
@@ -299,7 +299,7 @@ public class Translator {
 		if (value.startsWith("\\")) {
 			retStr += value.substring(2, value.length() - 2);
 		} else {
-			return SYNTAX_ERROR;
+			return SYNTAX_ERROR + lineNumber + " Unexpected string representation " + value;
 		}
 		retStr += "\"";
 		return retStr;
@@ -317,6 +317,6 @@ public class Translator {
 				return "args[" + value.substring(8, 9) + "]";
 		}
 
-		return SYNTAX_ERROR;
+		return SYNTAX_ERROR + lineNumber + " Unexpected cmdline argument " + value;
 	}
 }
