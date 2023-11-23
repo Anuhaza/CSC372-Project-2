@@ -46,7 +46,10 @@ string variable -> x add \\hi\\
 string variable -> \\hello\\ add \\world\\
 
 :printing to output
-*Parser and Translator are working!*
+#Parser and Translator are working!#
+
+:comments
+:This is a comment:
 
 : command line arguments
 string var0 -> \\First command line argument is:\\ add <cmdline0>
