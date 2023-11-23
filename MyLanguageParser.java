@@ -77,40 +77,52 @@ public class MyLanguageParser {
 	 * Parser for the grammar rules
 	 */
 	private String stmt() throws ParseException {
-		String token = getNextToken();
-		if (token != null) {
-			switch (token) {
-			case "int":
-				if (showParsing)
-					System.out.println("Parsing <int-stmt>");
-				return intstmt(token);
-			case "dec":
-				if (showParsing)
-					System.out.println("Parsing <dec-stmt>");
-				return decstmt(token);
-			case "string":
-				if (showParsing)
-					System.out.println("Parsing <string-stmt>");
-				return strstmt(token);
-			case "bool":
-				if (showParsing)
-					System.out.println("Parsing <bool-stmt>");
-				return boolstmt(token);
-			case "as":
-				if (showParsing)
-					System.out.println("Parsing <for-loop>");
-				return forloop(token);
-			case "if":
-				if (showParsing)
-					System.out.println("Parsing <full-if>");
-				return fullif(token);
-			default:
-				throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
-			}
-		}
+        String token = getNextToken();
+        if (token != null) {
+            switch (token) {
+                case "int":
+                    if (showParsing)
+                        System.out.println("Parsing <int-stmt>");
+                    return intstmt(token);
+                case "dec":
+                    if (showParsing)
+                        System.out.println("Parsing <dec-stmt>");
+                    return decstmt(token);
+                case "string":
+                    if (showParsing)
+                        System.out.println("Parsing <string-stmt>");
+                    return strstmt(token);
+                case "*": // Handle print statements
+                    if (showParsing)
+                        System.out.println("Parsing <print-stmt>");
+                    return printstmt();
+                case "bool":
+                    if (showParsing)
+                        System.out.println("Parsing <bool-stmt>");
+                    return boolstmt(token);
+                case "as":
+                    if (showParsing)
+                        System.out.println("Parsing <for-loop>");
+                    return forloop(token);
+                case "if":
+                    if (showParsing)
+                        System.out.println("Parsing <full-if>");
+                    return fullif(token);
+                case ":": // Handle comments
+                    if (showParsing)
+                        System.out.println("Parsing <comment>");
+                    return comment();
+                case "during": // Handle while loops
+                    if (showParsing)
+                        System.out.println("Parsing <while-loop>");
+                    return whileloop();
+                default:
+                    throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
+            }
+        }
 
-		return "Syntax error";
-	}
+        return "Syntax error";
+    }
 
 	/**
 	 * Parser for fullif
@@ -224,6 +236,74 @@ public class MyLanguageParser {
 		nestedConditionalCount--;
 		return outputStr;
 	}
+    /**
+     * Parser for comment
+     * 
+     */
+    private String comment() throws ParseException {
+        String commentText = getNextToken();
+        if (!commentText.startsWith("::") || !commentText.endsWith("::")) {
+            throw new ParseException(SYNTAX_ERROR + lineNumber + " Comments must be enclosed in '::'");
+        }
+        // Print the comment with * * around it
+        return "* " + commentText.substring(2, commentText.length() - 2) + " *";
+    }
+
+    /**
+     * Parser for whileloop
+     */
+    private String whileloop() throws ParseException {
+        String during = getNextToken();
+        String intToken = getNextToken();
+        String variable = getNextToken();
+        String loopsToken = getNextToken();
+        String throughToken = getNextToken();
+        String loopStart = getNextToken();
+        String loopEnd = getNextToken();
+
+        // Print the while loop with * * around it
+        String outputStr = "* " + during + " " + intToken + " " + variable + " " + loopsToken + " " +
+                throughToken + " " + loopStart + ", " + loopEnd + " * {\n\t\t";
+
+        // Add tabs based on the number of nested loops
+        int nestedLoops = nestedLoopCount;
+        while (nestedLoops-- > 0)
+            outputStr += "\t";
+
+        String line = "";
+        while (true) {
+            String nextToken = getNextToken();
+            if (nextToken == null)
+                break;
+            line += nextToken + " ";
+        }
+
+        this.tokens = tokenizeInput(line);
+        this.currentTokenIndex = 0;
+
+        outputStr += parse();
+
+        outputStr += ";\n\t\t";
+
+        // Add tabs based on the number of nested loops
+        nestedLoops = nestedLoopCount - 1;
+        while (nestedLoops-- > 0)
+            outputStr += "\t";
+
+        outputStr += "}";
+        return outputStr;
+    }
+    /**
+     * Parser for print
+     */
+    private String printstmt() throws ParseException {
+        String printText = getNextToken();
+        if (!printText.startsWith("*") || !printText.endsWith("*")) {
+            throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
+        }
+        // Print the statement with * * around it
+        return "* " + printText.substring(1, printText.length() - 1) + " *";
+    }
 
 	/**
 	 * Parser for forloop
