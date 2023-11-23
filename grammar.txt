@@ -14,7 +14,7 @@
 <op> ::= add | sub | div | mod
 <comp> ::= gt | lt | equals
 <logical> ::= <expr> | not <logical> | <expr> and <logical> | <expr> or <logical>
-<comment> ::= :<comment>:
+<comment> ::= ::<comment>::
 <stmt2> ::= <if-stmt> | s1 | s2
 <full-stmt> ::= <full-if> | s1 | s2
 <if-stmt> ::= if <logical> then [ <full-stmt> ] else [ <stmt2> ] | if <logical> then [ <stmt2> ]
