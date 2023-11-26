@@ -54,8 +54,11 @@ public class MyLanguageParser {
 		return tokens;
 	}
 
-	/*
-	 * Statement parser
+	/**
+	 * Generate statement
+	 * 
+	 * @return String, parsed string
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	public String parse() throws ParseException {
 		return stmt();
@@ -73,8 +76,11 @@ public class MyLanguageParser {
 		return null;
 	}
 
-	/*
-	 * Parser for the grammar rules
+	/**
+	 * Statement Parser for the grammar rules
+	 * 
+	 * @return String, the parsed and translated string
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String stmt() throws ParseException {
         String token = getNextToken();
@@ -129,7 +135,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String fullif(String firstToken) throws ParseException {
 		String variable = getNextToken();
@@ -236,10 +242,13 @@ public class MyLanguageParser {
 		nestedConditionalCount--;
 		return outputStr;
 	}
-    /**
-     * Parser for comment
-     * 
-     */
+	
+	/**
+	 * Parser for comment
+	 * 
+	 * @return String, the parsed and translated string
+	 * @throws ParseException, exception thrown for parse errors
+	 */
     private String comment() throws ParseException {
         String commentText = getNextToken();
         if (!commentText.startsWith("::") || !commentText.endsWith("::")) {
@@ -251,6 +260,9 @@ public class MyLanguageParser {
 
     /**
      * Parser for whileloop
+     * 
+	 * @return String, the parsed and translated string
+	 * @throws ParseException, exception thrown for parse errors
      */
     private String whileloop() throws ParseException {
         String during = getNextToken();
@@ -293,8 +305,12 @@ public class MyLanguageParser {
         outputStr += "}";
         return outputStr;
     }
+
     /**
      * Parser for print
+     * 
+	 * @return String, the parsed and translated string
+	 * @throws ParseException, exception thrown for parse errors
      */
     private String printstmt() throws ParseException {
         String printText = getNextToken();
@@ -310,7 +326,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String forloop(String firstToken) throws ParseException {
 		String intToken = getNextToken();
@@ -382,7 +398,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String intstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
@@ -423,7 +439,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String decstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
@@ -465,7 +481,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String strstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();
@@ -537,7 +553,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param String, the first token in the production
 	 * @return String, the parsed and translated string
-	 * @throws ParseException
+	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String boolstmt(String firstToken) throws ParseException {
 		String variable = getNextToken();

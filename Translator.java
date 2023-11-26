@@ -9,9 +9,6 @@
  */
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Translator {
@@ -34,6 +31,9 @@ public class Translator {
 
 	/**
 	 * Parses Source file to translate
+	 * 
+	 * @param filename, program file to parse
+	 * @return String, string for the translated code
 	 */
 	private static String parseSource(String filename) {
 		String outputStr = "";
