@@ -53,3 +53,12 @@ string var0 -> \\First command line argument is:\\ add <cmdline0>
 
 : command line arguments
 string var1 -> \\Second command line argument is:\\ add <cmdline1>
+
+: while loops
+duringint var0 loops through (0, 10)
+
+: comments
+:: This is a comment! :::::
+
+: printing to output
+*Parser and Translator are working!#
