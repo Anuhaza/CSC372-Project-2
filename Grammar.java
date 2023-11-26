@@ -62,7 +62,6 @@ public class Grammar {
 
 			String[] tokens = line.split(" ");
 			LinkedList<String> list = new LinkedList<>();
-			Nonterminal symbol = null;
 
 			// check for errors in grammar i.e. missing ::= in production
 			if (!tokens[1].equals("::=")) {

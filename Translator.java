@@ -37,9 +37,11 @@ public class Translator {
 	 */
 	private static String parseSource(String filename) {
 		String outputStr = "";
-
+		String firstLetter = filename.substring(0,1);
+				
 		outputStr += "public class ";
-		outputStr += filename.substring(0, filename.lastIndexOf('.')) + " {\n";
+		outputStr += firstLetter.toUpperCase();	
+		outputStr += filename.substring(1, filename.lastIndexOf('.')) + " {\n";
 		outputStr += "\n\tpublic static void main(String[] args) {\n";
 
 		Scanner scanner = null;
