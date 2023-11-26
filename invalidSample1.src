@@ -55,7 +55,7 @@ string var1 -> \\Second command line argument is:\\ add <cmdline1>
 duringint var0 loops through (0, 10)
 
 : comments
-:: This is a comment! :::::
+:: This is a comment! &&&&
 
 : printing to output
 *Parser and Translator are working!#
