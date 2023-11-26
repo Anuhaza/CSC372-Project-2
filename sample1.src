@@ -80,3 +80,12 @@ if comparison2 then [ if comparison3 then [ int sum1 -> 1 add 2 ] else [ int sum
 
 :printing to output
 *nested conditional with block is working!*
+
+: while loops
+during int var0 loops through (0, 10)
+
+: comments
+:: This is a comment! ::
+
+: printing to output
+*Parser and Translator are working!*
