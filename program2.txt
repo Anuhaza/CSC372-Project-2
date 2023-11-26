@@ -25,3 +25,6 @@ bool comparison2 -> 2.1 lt 3.5
 
 : boolean expressions with comparison operator: equals
 bool comparison3 -> 5.1 equals 3.2
+
+:printing to output
+*Decimals and Booleans are working!*

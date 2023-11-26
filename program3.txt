@@ -1,3 +1,6 @@
+:printing to output
+*Ensure you are passing two command line args when running this!*
+
 : Variables that can be integers
 int m -> 11
 int n -> 5
@@ -61,7 +64,7 @@ string var0 -> \\The new language supports command line args:\\ add <cmdline0>
 string var1 -> \\This is an example of command line args:\\ add <cmdline1>
 
 : command line arguments
-string var0 -> \\First command line argument is:\\ add <cmdline0>
+string var2 -> \\First command line argument is:\\ add <cmdline0>
 
 : command line arguments
-string var1 -> \\Second command line argument is:\\ add <cmdline1>
+string var3 -> \\Second command line argument is:\\ add <cmdline1>
