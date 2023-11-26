@@ -33,7 +33,7 @@ public class Interactive {
 			try {	
 				String line = br.readLine();
 				MyLanguageParser parser = new MyLanguageParser(line, showParsing, 1);
-				System.out.println("\t\t" + parser.parse() + "\n");
+				System.out.println("\t\t" + parser.parse() + "; \n");
 			} catch (Exception e) {
 				System.err.println(e.getMessage());
 			}
