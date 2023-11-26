@@ -1,0 +1,64 @@
+: Variables that can be integers
+int x -> 3
+int y -> 2
+
+: basic integer expressions with basic operators: addition
+inti sum -> 1 add 2
+
+: basic integer expressions with basic operators: subtraction
+int diff -> 4 sub 2
+
+: basic integer expressions with basic operators: multiplication
+int prod -> 1 mul 3
+
+: basic integer expressions with basic operators: division
+int result -> 4 div 2
+
+: basic integer expressions with basic operators: modulus
+int remainder -> 4 mod 2
+
+: variables that can be booleans
+bool isValid -> T
+bool isSorted -> F
+
+: boolean expressions with basic operation: and
+bool isSortedAndValid -> isValid and IsSorted
+
+: boolean expressions with basic operation: not
+bool result -> not T
+
+: boolean expressions with basic operation: or
+bool isSortedOrValid -> isValid or IsSorted
+
+: boolean expressions with comparison operator: gt
+bool invalid -> 5 gt 3
+
+: boolean expressions with comparison operator: lt
+bool invalid -> 2 lt 3
+
+: boolean expressions with comparison operator: equals
+bool invalid -> 5 equals 3
+
+: variables that can be Strings
+string variable -> x add \\hi\\
+
+: variables that can be Strings
+string variable -> \\hello\\ add \\world\\
+
+:printing to output
+*Parser and Translator are working!*
+
+: command line arguments
+string var0 -> \\First command line argument is:\\ add <cmdline0>
+
+: command line arguments
+string var1 -> \\Second command line argument is:\\ add <cmdline1>
+
+: while loops
+duringint var0 loops through (0, 10)
+
+: comments
+:: This is a comment! &&&&
+
+: printing to output
+*Parser and Translator are working!#
