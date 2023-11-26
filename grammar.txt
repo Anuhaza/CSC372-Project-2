@@ -1,7 +1,7 @@
 <stmt> ::= <intstmt> | <decstmt> | <strstmt> | <boolstmt> | <for-loop> | <while-loop> | <print-stmt> | <full-stmt>
 <intstmt> ::= int <var> <assign> <num> | int <var> <assign> <num> <op> <num>
 <decstmt> ::= dec <var> <assign> <num> . <num> | dec <var> <assign> <num>.<num> <op> <num>.<num>
-<strstmt> ::= string <var> <assign> \<chars>\ | string <var> <assign> \<chars>\ add \<chars>\
+<strstmt> ::= string <var> <assign> \<chars>\ | string <var> <assign> \<chars>\ add \<chars>\ | string <var> <assign> \<chars>\ add <args>
 <boolstmt> ::= bool <var> <assign> <truefalse>
 <print-stmt> ::= *<var>* 
 <assign> ::= ->
@@ -15,6 +15,7 @@
 <comp> ::= gt | lt | equals
 <logical> ::= <expr> | not <logical> | <expr> and <logical> | <expr> or <logical>
 <comment> ::= ::<comment>::
+<args> ::= < cmdline <num> >
 <stmt2> ::= <if-stmt> | s1 | s2
 <full-stmt> ::= <full-if> | s1 | s2
 <if-stmt> ::= if <logical> then [ <full-stmt> ] else [ <stmt2> ] | if <logical> then [ <stmt2> ]
