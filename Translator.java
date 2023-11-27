@@ -286,6 +286,9 @@ public class Translator {
 
 		if (value.equals("if"))
 			return "if (";
+		
+		if (value.equals("during)) 
+			return "while (";
 
 		return SYNTAX_ERROR + lineNumber + " Unexpected first token " + value;
 	}
