@@ -54,6 +54,9 @@ string strVariable3 -> \\hello\\ add \\world\\
 : loop with block
 as int i loops through (0, 9), int w -> x add 1
 
+: while loop
+during int var0 loops through (0, 10)
+
 :printing to output
 *loop with block is working!*
 
