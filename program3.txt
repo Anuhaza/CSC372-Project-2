@@ -68,3 +68,6 @@ string var2 -> \\First command line argument is:\\ add <cmdline0>
 
 : command line arguments
 string var3 -> \\Second command line argument is:\\ add <cmdline1>
+
+: while loops
+during int var0 loops through (0, 10)
