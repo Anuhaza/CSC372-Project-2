@@ -114,14 +114,14 @@ public class MyLanguageParser {
                     if (showParsing)
                         System.out.println("Parsing <full-if>");
                     return fullif(token);
-                case ":": // Handle comments
+                case "::": // Handle comments
                     if (showParsing)
                         System.out.println("Parsing <comment>");
                     return comment();
                 case "during": // Handle while loops
                     if (showParsing)
                         System.out.println("Parsing <while-loop>");
-                    return whileloop();
+                    return whileloop(token);
                 default:
                     throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
             }
@@ -251,7 +251,7 @@ public class MyLanguageParser {
 	 */
     private String comment() throws ParseException {
         String commentText = getNextToken();
-        if (!commentText.startsWith("::") || !commentText.endsWith("::")) {
+        if (!commentText.startsWith("::")) {
             throw new ParseException(SYNTAX_ERROR + lineNumber + " Comments must be enclosed in '::'");
         }
         // Print the comment with * * around it
@@ -264,8 +264,7 @@ public class MyLanguageParser {
 	 * @return String, the parsed and translated string
 	 * @throws ParseException, exception thrown for parse errors
      */
-    private String whileloop() throws ParseException {
-        String during = getNextToken();
+    private String whileloop(String firstToken) throws ParseException {
         String intToken = getNextToken();
         String variable = getNextToken();
         String loopsToken = getNextToken();
@@ -273,10 +272,33 @@ public class MyLanguageParser {
         String loopStart = getNextToken();
         String loopEnd = getNextToken();
 
-        // Print the while loop with * * around it
-        String outputStr = "* " + during + " " + intToken + " " + variable + " " + loopsToken + " " +
-                throughToken + " " + loopStart + ", " + loopEnd + " * {\n\t\t";
+    	nestedLoopCount++;
 
+		String outputStr = "";
+		String whileStr = Translator.translateFirstToken(firstToken);
+
+		if (!intToken.equals("int")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " int token expected");
+		}
+		outputStr += intToken + " ";
+
+		if (!isVariable(variable)) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
+		}
+		outputStr += variable + " = ";
+
+		if (!loopsToken.equals("loops") || !throughToken.equals("through")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " 'loops through' tokens expected");
+		}
+
+		if (!loopStart.startsWith("(")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " '(' token expected");
+		}
+		
+		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + ";\n";
+		outputStr += "\t\t" + whileStr + variable + " < ";
+		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "){\n\t\t";
+		
         // Add tabs based on the number of nested loops
         int nestedLoops = nestedLoopCount;
         while (nestedLoops-- > 0)
@@ -295,7 +317,8 @@ public class MyLanguageParser {
 
         outputStr += parse();
 
-        outputStr += ";\n\t\t";
+        outputStr += ";\n\t\t\t";
+		outputStr += variable + "++;\n\t\t";
 
         // Add tabs based on the number of nested loops
         nestedLoops = nestedLoopCount - 1;
@@ -303,6 +326,8 @@ public class MyLanguageParser {
             outputStr += "\t";
 
         outputStr += "}";
+		nestedLoopCount--;
+
         return outputStr;
     }
 

@@ -55,13 +55,13 @@ string strVariable3 -> \\hello\\ add \\world\\
 as int i loops through (0, 9), int w -> x add 1
 
 : while loop
-during int var0 loops through (0, 10)
+during int var0 loops through (0, 8), int f -> x add 3
 
 :printing to output
 *loop with block is working!*
 
 :comments
-::This is a comment::
+:: This is a comment ::
 
 : nested loop with block
 as int i loops through (0, 9), as int j loops through (2, 4), as int k loops through (3, 5), int z -> x add 2
@@ -85,4 +85,4 @@ if comparison2 then [ if comparison3 then [ int sum1 -> 1 add 2 ] else [ int sum
 *nested conditional with block is working!*
 
 : while loops
-during int var0 loops through (0, 10)
+during int var1 loops through (0, 5), int z -> x add 2
