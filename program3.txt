@@ -1,5 +1,6 @@
 :printing to output
-*Ensure you are passing two command line args when running this!*
+*IMPORTANT: Ensure you are passing two command line args when running this!*
+*IMPORTANT: You will get an exception if you do not pass two cmd line args!*
 
 : Variables that can be integers
 int m -> 11

@@ -272,7 +272,6 @@ public class MyLanguageParser {
         String loopStart = getNextToken();
         String loopEnd = getNextToken();
 
-    	nestedLoopCount++;
 
 		String outputStr = "";
 		String whileStr = Translator.translateFirstToken(firstToken);
@@ -296,11 +295,16 @@ public class MyLanguageParser {
 		}
 		
 		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + ";\n";
+		int nestedLoops = nestedLoopCount;
+        while (nestedLoops-- > 0)
+            outputStr += "\t";
+    	nestedLoopCount++;
+
 		outputStr += "\t\t" + whileStr + variable + " < ";
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "){\n\t\t";
 		
         // Add tabs based on the number of nested loops
-        int nestedLoops = nestedLoopCount;
+        nestedLoops = nestedLoopCount;
         while (nestedLoops-- > 0)
             outputStr += "\t";
 
@@ -317,7 +321,12 @@ public class MyLanguageParser {
 
         outputStr += parse();
 
-        outputStr += ";\n\t\t\t";
+        outputStr += ";\n\t\t";
+     // Add tabs based on the number of nested loops
+        nestedLoops = nestedLoopCount;
+        while (nestedLoops-- > 0)
+            outputStr += "\t";
+        
 		outputStr += variable + "++;\n\t\t";
 
         // Add tabs based on the number of nested loops
