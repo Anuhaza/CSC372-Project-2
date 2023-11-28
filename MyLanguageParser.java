@@ -27,7 +27,7 @@ public class MyLanguageParser {
 	 * 
 	 * @param inputStatement, String source line of our new programming language
 	 * @param showParsing,    boolean true shows parsing information
-	 * @param lineNumber2 
+	 * @param lineNumber2
 	 */
 	public MyLanguageParser(String inputStatement, boolean showParsing, int lineNumber) {
 		this.tokens = tokenizeInput(inputStatement);
@@ -83,52 +83,56 @@ public class MyLanguageParser {
 	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String stmt() throws ParseException {
-        String token = getNextToken();
-        if (token != null) {
-            switch (token) {
-                case "int":
-                    if (showParsing)
-                        System.out.println("Parsing <int-stmt>");
-                    return intstmt(token);
-                case "dec":
-                    if (showParsing)
-                        System.out.println("Parsing <dec-stmt>");
-                    return decstmt(token);
-                case "string":
-                    if (showParsing)
-                        System.out.println("Parsing <string-stmt>");
-                    return strstmt(token);
-                case "*": // Handle print statements
-                    if (showParsing)
-                        System.out.println("Parsing <print-stmt>");
-                    return printstmt();
-                case "bool":
-                    if (showParsing)
-                        System.out.println("Parsing <bool-stmt>");
-                    return boolstmt(token);
-                case "as":
-                    if (showParsing)
-                        System.out.println("Parsing <for-loop>");
-                    return forloop(token);
-                case "if":
-                    if (showParsing)
-                        System.out.println("Parsing <full-if>");
-                    return fullif(token);
-                case "::": // Handle comments
-                    if (showParsing)
-                        System.out.println("Parsing <comment>");
-                    return comment();
-                case "during": // Handle while loops
-                    if (showParsing)
-                        System.out.println("Parsing <while-loop>");
-                    return whileloop(token);
-                default:
-                    throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
-            }
-        }
+		String token = getNextToken();
+		if (token != null) {
+			switch (token) {
+			case "int":
+				if (showParsing)
+					System.out.println("Parsing <int-stmt>");
+				return intstmt(token);
+			case "dec":
+				if (showParsing)
+					System.out.println("Parsing <dec-stmt>");
+				return decstmt(token);
+			case "string":
+				if (showParsing)
+					System.out.println("Parsing <string-stmt>");
+				return strstmt(token);
+			case "*": // Handle print statements
+				if (showParsing)
+					System.out.println("Parsing <print-stmt>");
+				return printstmt();
+			case "bool":
+				if (showParsing)
+					System.out.println("Parsing <bool-stmt>");
+				return boolstmt(token);
+			case "as":
+				if (showParsing)
+					System.out.println("Parsing <for-loop>");
+				return forloop(token);
+			case "if":
+				if (showParsing)
+					System.out.println("Parsing <full-if>");
+				return fullif(token);
+			case ":": // Handle comments
+				if (showParsing)
+					System.out.println("Parsing <comment>");
+				return comment1Colon(token);
+			case "::": // Handle comments
+				if (showParsing)
+					System.out.println("Parsing <comment>");
+				return comment2Colons(token);
+			case "during": // Handle while loops
+				if (showParsing)
+					System.out.println("Parsing <while-loop>");
+				return whileloop(token);
+			default:
+				throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
+			}
+		}
 
-        return "Syntax error";
-    }
+		return "Syntax error";
+	}
 
 	/**
 	 * Parser for fullif
@@ -242,36 +246,64 @@ public class MyLanguageParser {
 		nestedConditionalCount--;
 		return outputStr;
 	}
-	
+
 	/**
 	 * Parser for comment
 	 * 
 	 * @return String, the parsed and translated string
 	 * @throws ParseException, exception thrown for parse errors
 	 */
-    private String comment() throws ParseException {
-        String commentText = getNextToken();
-        if (!commentText.startsWith("::")) {
-            throw new ParseException(SYNTAX_ERROR + lineNumber + " Comments must be enclosed in '::'");
-        }
-        // Print the comment with * * around it
-        return "* " + commentText.substring(2, commentText.length() - 2) + " *";
-    }
+	private String comment1Colon(String firstToken) throws ParseException {
+		String outputStr = "// ";
+		if (!firstToken.startsWith(":")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Comments must start with ':'");
+		}
+		// Print the comment with * * around it
+		while (true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			outputStr += nextToken + " ";
+		}
+		return outputStr;
+	}
 
-    /**
-     * Parser for whileloop
-     * 
+	/**
+	 * Parser for comment
+	 * 
 	 * @return String, the parsed and translated string
 	 * @throws ParseException, exception thrown for parse errors
-     */
-    private String whileloop(String firstToken) throws ParseException {
-        String intToken = getNextToken();
-        String variable = getNextToken();
-        String loopsToken = getNextToken();
-        String throughToken = getNextToken();
-        String loopStart = getNextToken();
-        String loopEnd = getNextToken();
+	 */
+	private String comment2Colons(String firstToken) throws ParseException {
+		String outputStr = "// ";
+		if (!firstToken.startsWith("::")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Comments must be enclosed in '::'");
+		}
+		// Print the comment with * * around it
+		while (true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			if (nextToken.equals("::"))
+				break;
+			outputStr += nextToken + " ";
+		}
+		return outputStr;
+	}
 
+	/**
+	 * Parser for whileloop
+	 * 
+	 * @return String, the parsed and translated string
+	 * @throws ParseException, exception thrown for parse errors
+	 */
+	private String whileloop(String firstToken) throws ParseException {
+		String intToken = getNextToken();
+		String variable = getNextToken();
+		String loopsToken = getNextToken();
+		String throughToken = getNextToken();
+		String loopStart = getNextToken();
+		String loopEnd = getNextToken();
 
 		String outputStr = "";
 		String whileStr = Translator.translateFirstToken(firstToken);
@@ -293,67 +325,67 @@ public class MyLanguageParser {
 		if (!loopStart.startsWith("(")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " '(' token expected");
 		}
-		
+
 		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + ";\n";
 		int nestedLoops = nestedLoopCount;
-        while (nestedLoops-- > 0)
-            outputStr += "\t";
-    	nestedLoopCount++;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+		nestedLoopCount++;
 
 		outputStr += "\t\t" + whileStr + variable + " < ";
 		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "){\n\t\t";
-		
-        // Add tabs based on the number of nested loops
-        nestedLoops = nestedLoopCount;
-        while (nestedLoops-- > 0)
-            outputStr += "\t";
 
-        String line = "";
-        while (true) {
-            String nextToken = getNextToken();
-            if (nextToken == null)
-                break;
-            line += nextToken + " ";
-        }
+		// Add tabs based on the number of nested loops
+		nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
 
-        this.tokens = tokenizeInput(line);
-        this.currentTokenIndex = 0;
+		String line = "";
+		while (true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
 
-        outputStr += parse();
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
 
-        outputStr += ";\n\t\t";
-     // Add tabs based on the number of nested loops
-        nestedLoops = nestedLoopCount;
-        while (nestedLoops-- > 0)
-            outputStr += "\t";
-        
+		outputStr += parse();
+
+		outputStr += ";\n\t\t";
+		// Add tabs based on the number of nested loops
+		nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
 		outputStr += variable + "++;\n\t\t";
 
-        // Add tabs based on the number of nested loops
-        nestedLoops = nestedLoopCount - 1;
-        while (nestedLoops-- > 0)
-            outputStr += "\t";
+		// Add tabs based on the number of nested loops
+		nestedLoops = nestedLoopCount - 1;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
 
-        outputStr += "}";
+		outputStr += "}";
 		nestedLoopCount--;
 
-        return outputStr;
-    }
+		return outputStr;
+	}
 
-    /**
-     * Parser for print
-     * 
+	/**
+	 * Parser for print
+	 * 
 	 * @return String, the parsed and translated string
 	 * @throws ParseException, exception thrown for parse errors
-     */
-    private String printstmt() throws ParseException {
-        String printText = getNextToken();
-        if (!printText.startsWith("*") || !printText.endsWith("*")) {
-            throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
-        }
-        // Print the statement with * * around it
-        return "* " + printText.substring(1, printText.length() - 1) + " *";
-    }
+	 */
+	private String printstmt() throws ParseException {
+		String printText = getNextToken();
+		if (!printText.startsWith("*") || !printText.endsWith("*")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
+		}
+		// Print the statement with * * around it
+		return "* " + printText.substring(1, printText.length() - 1) + " *";
+	}
 
 	/**
 	 * Parser for forloop
@@ -459,7 +491,8 @@ public class MyLanguageParser {
 		if (op != null) {
 			String value2 = getNextToken();
 			if (value2 == null || !isInteger(value2) && !isVariable(value2)) {
-				throw new ParseException(SYNTAX_ERROR + lineNumber + " Missing second operand for arithmetic operation");
+				throw new ParseException(
+						SYNTAX_ERROR + lineNumber + " Missing second operand for arithmetic operation");
 			}
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
@@ -501,7 +534,8 @@ public class MyLanguageParser {
 		if (op != null) {
 			String value2 = getNextToken();
 			if (value2 == null || !isDecimal(value2) && !isVariable(value2)) {
-				throw new ParseException(SYNTAX_ERROR + lineNumber + " Missing correct second operand for arithmetic operation");
+				throw new ParseException(
+						SYNTAX_ERROR + lineNumber + " Missing correct second operand for arithmetic operation");
 			}
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
@@ -643,7 +677,8 @@ public class MyLanguageParser {
 				outputStr += value2;
 
 			} else {
-				throw new ParseException(SYNTAX_ERROR + lineNumber + " First operand is not comparison based or a boolean value.");
+				throw new ParseException(
+						SYNTAX_ERROR + lineNumber + " First operand is not comparison based or a boolean value.");
 			}
 		} else {
 			String operator = getNextToken();
