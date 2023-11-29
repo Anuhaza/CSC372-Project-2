@@ -1,6 +1,6 @@
 : printing to output
-*IMPORTANT: Ensure you are passing two command line args when running this!*
-*IMPORTANT: You will get an exception if you do not pass two cmd line args!*
+* IMPORTANT: Ensure you are passing two command line args when running this! *
+* IMPORTANT: You will get an exception if you do not pass two cmd line args! *
 
 : Variables that can be integers
 int m -> 11
@@ -53,10 +53,10 @@ string strVariable1 -> x add \\The source lines of the new language are parsed\\
 string strVariable2 -> \\This java file is generated\\ add \\by the translator\\
 
 : printing to output
-*Parser and Translator are working!*
+* Parser and Translator are working! *
 
 : printing to output
-*This is another example of printing to output!*
+* This is another example of printing to output! *
 
 : command line arguments
 string var0 -> \\The new language supports command line args:\\ add <cmdline0>

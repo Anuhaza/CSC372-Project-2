@@ -15,6 +15,7 @@ public class MyLanguageParser {
 	private int currentTokenIndex;
 	private int nestedLoopCount = 0;
 	private int nestedConditionalCount = 0;
+	private String inputStatement;
 
 	private int lineNumber = 0;
 	private final String SYNTAX_ERROR = "Syntax Error: Line# ";
@@ -43,6 +44,7 @@ public class MyLanguageParser {
 	 * @return List<String>, the list of tokens
 	 */
 	private List<String> tokenizeInput(String inputStatement) {
+		this.inputStatement = inputStatement;
 		List<String> tokens = new ArrayList<>();
 		StringTokenizer tokenizer = new StringTokenizer(inputStatement, " ");
 		while (tokenizer.hasMoreTokens()) {
@@ -101,7 +103,7 @@ public class MyLanguageParser {
 			case "*": // Handle print statements
 				if (showParsing)
 					System.out.println("Parsing <print-stmt>");
-				return printstmt();
+				return printstmt(token);
 			case "bool":
 				if (showParsing)
 					System.out.println("Parsing <bool-stmt>");
@@ -378,13 +380,20 @@ public class MyLanguageParser {
 	 * @return String, the parsed and translated string
 	 * @throws ParseException, exception thrown for parse errors
 	 */
-	private String printstmt() throws ParseException {
-		String printText = getNextToken();
-		if (!printText.startsWith("*") || !printText.endsWith("*")) {
+	private String printstmt(String firstToken) throws ParseException {
+		if (!firstToken.startsWith("*")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
 		}
-		// Print the statement with * * around it
-		return "* " + printText.substring(1, printText.length() - 1) + " *";
+		
+		if(!inputStatement.startsWith("*") || !inputStatement.endsWith("*")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
+		}
+
+		String retStr = "System.out.println(\"";
+		retStr += inputStatement.substring(1, inputStatement.length() - 1);
+		retStr += "\")";
+		
+		return retStr;
 	}
 
 	/**
