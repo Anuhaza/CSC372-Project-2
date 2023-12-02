@@ -196,12 +196,17 @@ public class MyLanguageParser {
 			outputStr += "\t";
 
 		String squareBracketClosed = getNextToken();
-		String elseToken = getNextToken();
+		if (!squareBracketClosed.equals("]")) {
+			squareBracketClosed = getNextToken();
+			squareBracketClosed = getNextToken();
+		}
+
 		if (!squareBracketClosed.equals("]")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " ']' token expected");
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
 
+		String elseToken = getNextToken();
 		if (!elseToken.equals("else")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " 'else' token expected");
 		}
@@ -242,7 +247,11 @@ public class MyLanguageParser {
 
 		squareBracketClosed = getNextToken();
 		if (!squareBracketClosed.equals("]")) {
-			throw new ParseException(SYNTAX_ERROR + lineNumber + " ']' token expected");
+			squareBracketClosed = getNextToken();
+			squareBracketClosed = getNextToken();
+			if (!squareBracketClosed.equals("]")) {
+				throw new ParseException(SYNTAX_ERROR + lineNumber + " ']' token expected");
+			}
 		}
 		outputStr += Translator.translateConditional(squareBracketClosed);
 
@@ -382,8 +391,17 @@ public class MyLanguageParser {
 	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String printstmt(String firstToken) throws ParseException {
+		String retStr = "";
+
 		if (!firstToken.startsWith("*")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
+		}
+
+		// handle case of print statements within conditionals
+		if (inputStatement.startsWith("*") && !inputStatement.endsWith("*")) {
+			String substr1 = inputStatement.substring(2, 3);
+			retStr = "System.out.println(" + substr1 + ")";
+			return retStr;
 		}
 
 		if (!inputStatement.startsWith("*") || !inputStatement.endsWith("*")) {
@@ -392,12 +410,12 @@ public class MyLanguageParser {
 
 		if (inputStatement.substring(3, inputStatement.length() - 2).startsWith("\\")
 				&& inputStatement.substring(3, inputStatement.length() - 2).endsWith("\\")) {
-			String retStr = "System.out.println(\"";
+			retStr = "System.out.println(\"";
 			retStr += inputStatement.substring(5, inputStatement.length() - 5);
 			retStr += "\")";
 			return retStr;
 		} else {
-			String retStr = "System.out.println(";
+			retStr = "System.out.println(";
 			retStr += inputStatement.substring(2, inputStatement.length() - 2);
 			retStr += ")";
 			return retStr;
@@ -679,7 +697,7 @@ public class MyLanguageParser {
 				outputStr += value + " ";
 				if (isLogical(operator)) {
 					outputStr += Translator.translateLogical(operator);
-				} 
+				}
 				if (isComparison(operator)) {
 					outputStr += Translator.translateComparison(operator);
 				}
