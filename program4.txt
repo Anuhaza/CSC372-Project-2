@@ -1,0 +1,9 @@
+int x -> 5
+int y -> 7
+
+bool comparison1 -> x gt y
+bool comparison2 -> y gt x
+
+* \\ MAX = \\ *
+
+if comparison1 then [ * x * ] else [ * y * ]

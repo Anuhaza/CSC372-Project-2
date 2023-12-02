@@ -384,19 +384,18 @@ public class MyLanguageParser {
 		if (!firstToken.startsWith("*")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
 		}
-		
-		if(!inputStatement.startsWith("*") || !inputStatement.endsWith("*")) {
+
+		if (!inputStatement.startsWith("*") || !inputStatement.endsWith("*")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
 		}
 
-		if (inputStatement.substring(3,inputStatement.length() - 2).startsWith("\\") && 
-				inputStatement.substring(3,inputStatement.length() - 2).endsWith("\\")){
+		if (inputStatement.substring(3, inputStatement.length() - 2).startsWith("\\")
+				&& inputStatement.substring(3, inputStatement.length() - 2).endsWith("\\")) {
 			String retStr = "System.out.println(\"";
 			retStr += inputStatement.substring(5, inputStatement.length() - 5);
 			retStr += "\")";
 			return retStr;
-		}
-		else{
+		} else {
 			String retStr = "System.out.println(";
 			retStr += inputStatement.substring(2, inputStatement.length() - 2);
 			retStr += ")";
@@ -668,7 +667,7 @@ public class MyLanguageParser {
 
 			} else if (isVariable(value)) {
 				String operator = getNextToken();
-				if (operator == null || !isLogical(operator)) {
+				if (operator == null || (!isLogical(operator) && !isComparison(operator))) {
 					throw new ParseException(SYNTAX_ERROR + lineNumber + " Logical operator expected.");
 				}
 				String value2 = getNextToken();
@@ -677,7 +676,12 @@ public class MyLanguageParser {
 				}
 
 				outputStr += value + " ";
-				outputStr += Translator.translateLogical(operator);
+				if (isLogical(operator)) {
+					outputStr += Translator.translateLogical(operator);
+				} 
+				if (isComparison(operator)) {
+					outputStr += Translator.translateComparison(operator);
+				}
 				outputStr += value2;
 
 			} else if (isDecimal(value) || isInteger(value)) {
