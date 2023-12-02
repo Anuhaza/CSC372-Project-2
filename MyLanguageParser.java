@@ -165,6 +165,7 @@ public class MyLanguageParser {
 		if (!squareBracketOpen.equals("[")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " '[' token expected");
 		}
+
 		outputStr += Translator.translateConditional(squareBracketOpen);
 
 		outputStr += " \n\t\t";

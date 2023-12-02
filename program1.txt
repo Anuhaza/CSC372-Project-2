@@ -49,7 +49,7 @@ string strVariable2 -> x add \\hi\\
 string strVariable3 -> \\hello\\ add \\world\\
 
 : printing to output
-* Parser and Translator are working! *
+* \\ Parser and Translator are working! \\ *
 
 : loop with block
 as int i loops through (0, 9), int w -> x add 1
@@ -58,7 +58,7 @@ as int i loops through (0, 9), int w -> x add 1
 during int var0 loops through (0, 8), int f -> x add 3
 
 : printing to output
-* loop with block is working! *
+* \\ loop with block is working! \\ *
 
 : comments
 :: This is a comment ::
@@ -67,7 +67,7 @@ during int var0 loops through (0, 8), int f -> x add 3
 as int i loops through (0, 9), as int j loops through (2, 4), as int k loops through (3, 5), int z -> x add 2
 
 : printing to output
-* nested loop with block is working! *
+* \\ nested loop with block is working! \\ *
 
 : conditional
 if comparison1 then [ string str -> \\then\\ add \\block\\ ] else [ string str -> \\else\\ add \\block\\ ]
@@ -76,13 +76,13 @@ if comparison1 then [ string str -> \\then\\ add \\block\\ ] else [ string str -
 if comparison2 then [ int sum1 -> 1 add 2 ] else [ int sum2 -> 1 add 2 ]
 
 : printing to output
-* conditional with block is working! *
+* \\ conditional with block is working! \\ *
 
 : nested conditional
 if comparison2 then [ if comparison3 then [ int sum1 -> 1 add 2 ] else [ int sum2 -> 1 add 2 ] ] else [ int sum2 -> 1 add 2 ]
 
 : printing to output
-* nested conditional with block is working! *
+* \\ nested conditional with block is working! \\ *
 
 : while loops
 during int var1 loops through (0, 5), int z -> x add 2
