@@ -275,15 +275,16 @@ public class Translator {
 			return "String ";
 
 		if (value.startsWith("*") && value.endsWith("*")) {
-			if (value.substring(1,length(value)).startsWith("\\") && value.substring(1,length(value) - 1).endsWith("\\")){
+			if (value.substring(3,value.length() - 2).startsWith("\\") && 
+					value.substring(3,value.length() - 2).endsWith("\\")){
 				String retStr = "System.out.println(\"";
-				retStr += value.substring(3, value.length() - 2);
+				retStr += value.substring(5, value.length() - 5);
 				retStr += "\")";
 				return retStr;
 			}
 			else{
 				String retStr = "System.out.println(";
-				retStr += value.substring(1, value.length() - 1);
+				retStr += value.substring(2, value.length() - 2);
 				retStr += ")";
 				return retStr;
 			}

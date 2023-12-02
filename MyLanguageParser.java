@@ -389,11 +389,19 @@ public class MyLanguageParser {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
 		}
 
-		String retStr = "System.out.println(\"";
-		retStr += inputStatement.substring(1, inputStatement.length() - 1);
-		retStr += "\")";
-		
-		return retStr;
+		if (inputStatement.substring(3,inputStatement.length() - 2).startsWith("\\") && 
+				inputStatement.substring(3,inputStatement.length() - 2).endsWith("\\")){
+			String retStr = "System.out.println(\"";
+			retStr += inputStatement.substring(5, inputStatement.length() - 5);
+			retStr += "\")";
+			return retStr;
+		}
+		else{
+			String retStr = "System.out.println(";
+			retStr += inputStatement.substring(2, inputStatement.length() - 2);
+			retStr += ")";
+			return retStr;
+		}
 	}
 
 	/**
