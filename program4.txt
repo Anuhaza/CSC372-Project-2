@@ -2,12 +2,20 @@ int x -> 5
 int y -> 7
 
 bool comparison1 -> x gt y
-* \\ MAX = \\ *
+* \\ Max = \\ *
 if comparison1 then [ * x * ] else [ * y * ]
 
 
-* \\ SUM = \\ *
+* \\ Sum = \\ *
 int z -> x add y
+* z *
+
+* \\ Difference = \\ *
+z -> y sub x
+* z *
+
+* \\ Product = \\ *
+z -> y mul x
 * z *
 
 * \\ GCD = \\ *
@@ -15,15 +23,36 @@ int z -> x add y
 during x notequals y loops, if x gt y then [ x -> x sub y ] else [ y -> y sub x ]
 
 * x *
+* \\ \n \\ *
 
-int x1 -> 12
-int y1 -> 20
+int u -> 12
+int v -> 20
+
+bool comparison2 -> u gt v
+* \\ Max = \\ *
+if comparison2 then [ * u * ] else [ * v * ]
+
+
+* \\ Sum = \\ *
+z -> u add v
+* z *
+
+* \\ Difference = \\ *
+z -> u sub v
+* z *
+
+* \\ Product = \\ *
+z -> u mul v
+* z *
 
 * \\ GCD = \\ *
 : while loops
-during x1 notequals y1 loops, if x1 gt y1 then [ x1 -> x1 sub y1 ] else [ y1 -> y1 sub x1 ]
+during u notequals v loops, if u gt v then [ u -> u sub v ] else [ v -> v sub u ]
 
-* x1 *
+* u *
+
+
+
 
 
 : conditional example
