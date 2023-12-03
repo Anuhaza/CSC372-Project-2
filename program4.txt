@@ -38,7 +38,7 @@ z -> u add v
 * z *
 
 * \\ Difference = \\ *
-z -> u sub v
+z -> v sub u
 * z *
 
 * \\ Product = \\ *
