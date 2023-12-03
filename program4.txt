@@ -23,6 +23,11 @@ z -> y mul x
 during x notequals y loops, if x gt y then [ x -> x sub y ] else [ y -> y sub x ]
 
 * x *
+
+* \\ LCM = \\ *
+int w -> z div x
+* w * 
+
 * \\ \n \\ *
 
 int u -> 12
@@ -51,7 +56,9 @@ during u notequals v loops, if u gt v then [ u -> u sub v ] else [ v -> v sub u 
 
 * u *
 
-
+* \\ LCM = \\ *
+int p -> z div u
+* p * 
 
 
 
