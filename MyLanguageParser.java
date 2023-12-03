@@ -461,7 +461,7 @@ public class MyLanguageParser {
 		if (!loopsToken.equals("loops,")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " loops token expected");
 		}
-		
+
 		nestedLoopCount++;
 
 		// Add tabs based on the number of nested loops
@@ -502,13 +502,30 @@ public class MyLanguageParser {
 	 */
 	private String printstmt(String firstToken) throws ParseException {
 		String retStr = "";
-
 		if (!firstToken.startsWith("*")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " Print statements must be enclosed in '*'");
 		}
 
 		// handle case of print statements within conditionals
 		if (inputStatement.startsWith("*") && !inputStatement.endsWith("*")) {
+
+			if (inputStatement.contains("\\")) {
+				inputStatement = inputStatement.substring(0, inputStatement.length() - 1);
+
+				if (inputStatement.substring(3, inputStatement.length() - 2).startsWith("\\")
+						&& inputStatement.substring(3, inputStatement.length() - 2).endsWith("\\")) {
+					String retStr2 = "System.out.print(\"";
+					retStr2 += inputStatement.substring(5, inputStatement.length() - 5);
+					retStr2 += "\")";
+					return retStr2;
+				} else {
+					String retStr2 = "System.out.print(";
+					retStr2 += inputStatement.substring(2, inputStatement.length() - 2);
+					retStr2 += ")";
+					return retStr2;
+				}
+			}
+
 			String substr1 = inputStatement.substring(2, 3);
 			retStr = "System.out.print(" + substr1 + ")";
 			return retStr;
@@ -568,8 +585,15 @@ public class MyLanguageParser {
 		if (!loopStart.startsWith("(")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " '(' token expected");
 		}
-		outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
-		outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
+
+		if (Character.isDigit(loopStart.charAt(1))) {
+			outputStr += Integer.parseInt(loopStart.substring(1, 2)) + "; " + variable + " < ";
+			outputStr += Integer.parseInt(loopEnd.substring(0, 1)) + "; " + variable + "++)";
+		} else {
+			outputStr += loopStart.substring(1, loopStart.length() - 1) + "; " + variable + " <= ";
+			outputStr += loopEnd.substring(0, loopEnd.length() - 2) + "; " + variable + "++)";
+		}
+
 		outputStr += " {\n\t\t";
 
 		// add tabs based on number of nested loops
@@ -598,6 +622,8 @@ public class MyLanguageParser {
 			outputStr += "\t";
 
 		outputStr += "}";
+		if (nestedLoopCount > 1)
+			outputStr += "\n\t\t\tSystem.out.println();";
 
 		nestedLoopCount--;
 		return outputStr;

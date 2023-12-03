@@ -1,0 +1,17 @@
+int x -> 3
+int y -> 5
+int w -> 1000
+int z -> 1
+
+as int i loops through (x, y), as int j loops through (z, i), * \\ * \\ *
+* \\ \n \\ *
+
+
+
+x -> 6
+y -> 10
+w -> 1450
+z -> 1
+
+as int i loops through (x, y), as int j loops through (z, i), * \\ * \\ *
+
