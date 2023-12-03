@@ -36,7 +36,7 @@ bool comparison5 -> 2.1 lte 3.5
 bool comparison6 -> 5.1 notequals 3.2
 
 : printing to output
-* \\ Decimals and Booleans are working! \\ *
+* \\ Decimals and Booleans are working!\n \\ *
 
 : while loops
 int w -> 3

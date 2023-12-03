@@ -277,13 +277,13 @@ public class Translator {
 		if (value.startsWith("*") && value.endsWith("*")) {
 			if (value.substring(3,value.length() - 2).startsWith("\\") && 
 					value.substring(3,value.length() - 2).endsWith("\\")){
-				String retStr = "System.out.println(\"";
+				String retStr = "System.out.print(\"";
 				retStr += value.substring(5, value.length() - 5);
 				retStr += "\")";
 				return retStr;
 			}
 			else{
-				String retStr = "System.out.println(";
+				String retStr = "System.out.print(";
 				retStr += value.substring(2, value.length() - 2);
 				retStr += ")";
 				return retStr;

@@ -510,7 +510,7 @@ public class MyLanguageParser {
 		// handle case of print statements within conditionals
 		if (inputStatement.startsWith("*") && !inputStatement.endsWith("*")) {
 			String substr1 = inputStatement.substring(2, 3);
-			retStr = "System.out.println(" + substr1 + ")";
+			retStr = "System.out.print(" + substr1 + ")";
 			return retStr;
 		}
 
@@ -520,12 +520,12 @@ public class MyLanguageParser {
 
 		if (inputStatement.substring(3, inputStatement.length() - 2).startsWith("\\")
 				&& inputStatement.substring(3, inputStatement.length() - 2).endsWith("\\")) {
-			retStr = "System.out.println(\"";
+			retStr = "System.out.print(\"";
 			retStr += inputStatement.substring(5, inputStatement.length() - 5);
 			retStr += "\")";
 			return retStr;
 		} else {
-			retStr = "System.out.println(";
+			retStr = "System.out.print(";
 			retStr += inputStatement.substring(2, inputStatement.length() - 2);
 			retStr += ")";
 			return retStr;

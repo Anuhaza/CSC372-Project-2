@@ -2,31 +2,37 @@ int x -> 5
 int y -> 7
 
 bool comparison1 -> x gt y
-* \\ Max = \\ *
+* \\ Max =  \\ *
 if comparison1 then [ * x * ] else [ * y * ]
+* \\ \n \\ *
 
 
-* \\ Sum = \\ *
+* \\ Sum =  \\ *
 int z -> x add y
 * z *
+* \\ \n \\ *
 
-* \\ Difference = \\ *
+* \\ Difference =  \\ *
 z -> y sub x
 * z *
+* \\ \n \\ *
 
-* \\ Product = \\ *
+* \\ Product =  \\ *
 z -> y mul x
 * z *
+* \\ \n \\ *
 
-* \\ GCD = \\ *
+* \\ GCD =  \\ *
 : while loops
 during x notequals y loops, if x gt y then [ x -> x sub y ] else [ y -> y sub x ]
 
 * x *
+* \\ \n \\ *
 
-* \\ LCM = \\ *
+* \\ LCM =  \\ *
 int w -> z div x
 * w * 
+* \\ \n \\ *
 
 * \\ \n \\ *
 
@@ -34,31 +40,37 @@ int u -> 12
 int v -> 20
 
 bool comparison2 -> u gt v
-* \\ Max = \\ *
+* \\ Max =  \\ *
 if comparison2 then [ * u * ] else [ * v * ]
+* \\ \n \\ *
 
 
-* \\ Sum = \\ *
+* \\ Sum =  \\ *
 z -> u add v
 * z *
+* \\ \n \\ *
 
-* \\ Difference = \\ *
+* \\ Difference =  \\ *
 z -> v sub u
 * z *
+* \\ \n \\ *
 
-* \\ Product = \\ *
+* \\ Product =  \\ *
 z -> u mul v
 * z *
+* \\ \n \\ *
 
-* \\ GCD = \\ *
+* \\ GCD =  \\ *
 : while loops
 during u notequals v loops, if u gt v then [ u -> u sub v ] else [ v -> v sub u ]
 
 * u *
+* \\ \n \\ *
 
-* \\ LCM = \\ *
+* \\ LCM =  \\ *
 int p -> z div u
 * p * 
+* \\ \n \\ *
 
 
 
