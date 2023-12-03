@@ -9,3 +9,6 @@ bool comparison2 -> y gt x
 if comparison1 then [ * x * ] else [ * y * ]
 
 if x gt y then [ x -> x sub y ] else [ y -> y sub x ]
+
+: while loops
+during x notequals y loops, if x gt y then [ x -> x sub y ] else [ y -> y sub x ]

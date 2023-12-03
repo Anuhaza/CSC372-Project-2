@@ -132,7 +132,8 @@ public class MyLanguageParser {
 				if (showParsing)
 					System.out.println("Parsing <var-assign>");
 				return varassign(token);
-				// throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
+			// throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " +
+			// token);
 			}
 		}
 
@@ -142,7 +143,7 @@ public class MyLanguageParser {
 	private String varassign(String firstToken) throws ParseException {
 		String assign = getNextToken();
 		String value1 = getNextToken();
-		
+
 		if (!isVariable(firstToken)) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
 		}
@@ -360,14 +361,19 @@ public class MyLanguageParser {
 	 */
 	private String whileloop(String firstToken) throws ParseException {
 		String intToken = getNextToken();
+
+		String outputStr = "";
+		String whileStr = Translator.translateFirstToken(firstToken);
+
+		if (isVariable(intToken) && !intToken.equals("int")) {
+			return whileloopComparison(firstToken, intToken);
+		}
+
 		String variable = getNextToken();
 		String loopsToken = getNextToken();
 		String throughToken = getNextToken();
 		String loopStart = getNextToken();
 		String loopEnd = getNextToken();
-
-		String outputStr = "";
-		String whileStr = Translator.translateFirstToken(firstToken);
 
 		if (!intToken.equals("int")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " int token expected");
@@ -430,6 +436,61 @@ public class MyLanguageParser {
 		outputStr += "}";
 		nestedLoopCount--;
 
+		return outputStr;
+	}
+
+	private String whileloopComparison(String firstToken, String intToken) throws ParseException {
+		String outputStr = Translator.translateFirstToken(firstToken);
+		outputStr += intToken + " ";
+
+		String comparison = getNextToken();
+
+		if (!isComparison(comparison)) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Expecting comparison operator");
+		}
+
+		outputStr += Translator.translateComparison(comparison);
+		String variable = getNextToken();
+		if (!isVariable(variable)) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
+		}
+		outputStr += variable + ") {\n\t\t";
+
+		String loopsToken = getNextToken();
+
+		if (!loopsToken.equals("loops,")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " loops token expected");
+		}
+		
+		nestedLoopCount++;
+
+		// Add tabs based on the number of nested loops
+		int nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		// new statement starts
+		String line = "";
+		while (true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
+
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
+
+		outputStr += parse();
+
+		outputStr += ";\n\t\t";
+		// Add tabs based on the number of nested loops
+		nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		outputStr += "}";
+		nestedLoopCount--;
 		return outputStr;
 	}
 
