@@ -129,11 +129,48 @@ public class MyLanguageParser {
 					System.out.println("Parsing <while-loop>");
 				return whileloop(token);
 			default:
-				throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
+				if (showParsing)
+					System.out.println("Parsing <var-assign>");
+				return varassign(token);
+				// throw new ParseException(SYNTAX_ERROR + lineNumber + " Unexpected token: " + token);
 			}
 		}
 
 		return "Syntax error";
+	}
+
+	private String varassign(String firstToken) throws ParseException {
+		String assign = getNextToken();
+		String value1 = getNextToken();
+		
+		if (!isVariable(firstToken)) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
+		}
+
+		if (!assign.equals("->")) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Expected '->' after variable declaration");
+		}
+		if (!isInteger(value1) && !isVariable(value1)) {
+			throw new ParseException(SYNTAX_ERROR + lineNumber + " Invalid integer values");
+		}
+
+		String outputStr = "";
+		outputStr += firstToken + " ";
+		outputStr += Translator.translateAssign(assign); // translate "->"
+		outputStr += value1;
+
+		String op = getNextToken();
+		if (op != null) {
+			String value2 = getNextToken();
+			if (value2 == null || !isInteger(value2) && !isVariable(value2)) {
+				throw new ParseException(
+						SYNTAX_ERROR + lineNumber + " Missing second operand for arithmetic operation");
+			}
+			outputStr += " " + Translator.translateOperator(op);
+			outputStr += value2;
+		}
+
+		return outputStr;
 	}
 
 	/**
@@ -146,7 +183,6 @@ public class MyLanguageParser {
 	private String fullif(String firstToken) throws ParseException {
 		String variable = getNextToken();
 		String then = getNextToken();
-		String squareBracketOpen = getNextToken();
 
 		nestedConditionalCount++;
 
@@ -155,13 +191,26 @@ public class MyLanguageParser {
 		if (!isVariable(variable)) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
 		}
-		outputStr += variable + ") ";
+		outputStr += variable;
 
 		if (!then.equals("then")) {
-			throw new ParseException(SYNTAX_ERROR + lineNumber + " 'then' token expected");
+			// check for expression such as x gt y
+			if (isComparison(then)) {
+				outputStr += " " + Translator.translateComparison(then);
+				variable = getNextToken();
+				outputStr += variable;
+			}
+			then = getNextToken();
+			if (!then.equals("then")) {
+				throw new ParseException(SYNTAX_ERROR + lineNumber + " 'then' token expected");
+			}
 		}
+
+		outputStr += ") ";
+
 		outputStr += Translator.translateConditional(then);
 
+		String squareBracketOpen = getNextToken();
 		if (!squareBracketOpen.equals("[")) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + " '[' token expected");
 		}

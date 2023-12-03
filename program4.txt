@@ -7,3 +7,5 @@ bool comparison2 -> y gt x
 * \\ MAX = \\ *
 
 if comparison1 then [ * x * ] else [ * y * ]
+
+if x gt y then [ x -> x sub y ] else [ y -> y sub x ]
