@@ -450,12 +450,27 @@ public class MyLanguageParser {
 		}
 
 		outputStr += Translator.translateComparison(comparison);
+
 		String variable = getNextToken();
+		
+		boolean newStatement = false;
+		if (variable.endsWith(",")) {
+			newStatement = true;
+			variable = variable.substring(0, variable.length()-1);
+		}
+
 		if (!isVariable(variable)) {
 			throw new ParseException(SYNTAX_ERROR + lineNumber + INVALID_VARIABLE_NAME);
 		}
 		outputStr += variable + ") {\n\t\t";
 
+		// while loop has nested statements
+		if (newStatement == true) {
+			String str = whileloopComparisonNestedStatements(outputStr) + "\n\t\t" + intToken + "++;\n\t\t}\n";
+
+			return str;
+		}
+		
 		String loopsToken = getNextToken();
 
 		if (!loopsToken.equals("loops,")) {
@@ -491,6 +506,35 @@ public class MyLanguageParser {
 
 		outputStr += "}";
 		nestedLoopCount--;
+		return outputStr;
+	}
+
+	private String whileloopComparisonNestedStatements(String outputStr) throws ParseException {
+
+		int nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+
+		// new statement starts
+		String line = "";
+		while (true) {
+			String nextToken = getNextToken();
+			if (nextToken == null)
+				break;
+			line += nextToken + " ";
+		}
+
+		this.tokens = tokenizeInput(line);
+		this.currentTokenIndex = 0;
+
+		outputStr += parse();
+
+		outputStr += ";\n\t\t";
+		// Add tabs based on the number of nested loops
+		nestedLoops = nestedLoopCount;
+		while (nestedLoops-- > 0)
+			outputStr += "\t";
+		
 		return outputStr;
 	}
 
@@ -638,6 +682,7 @@ public class MyLanguageParser {
 	 * @throws ParseException, exception thrown for parse errors
 	 */
 	private String intstmt(String firstToken) throws ParseException {
+		boolean newStatement = false;
 		String variable = getNextToken();
 		String assign = getNextToken();
 		String value1 = getNextToken();
@@ -661,12 +706,39 @@ public class MyLanguageParser {
 		String op = getNextToken();
 		if (op != null) {
 			String value2 = getNextToken();
+			
+			// another statement follows
+			if (value2.endsWith(",")) {
+				newStatement = true;
+				value2 = value2.substring(0, value2.length() - 1);
+			}
+
 			if (value2 == null || !isInteger(value2) && !isVariable(value2)) {
 				throw new ParseException(
 						SYNTAX_ERROR + lineNumber + " Missing second operand for arithmetic operation");
 			}
 			outputStr += " " + Translator.translateOperator(op);
 			outputStr += value2;
+
+		}
+		
+		if (newStatement) {
+			outputStr += ";\n\t\t";
+			
+			String line = "";
+			while (true) {
+				String nextToken = getNextToken();
+				if (nextToken == null)
+					break;
+				line += nextToken + " ";
+			}
+
+			this.tokens = tokenizeInput(line);
+			this.currentTokenIndex = 0;
+
+			outputStr += parse();
+
+			outputStr += ";\n\t\t";
 		}
 
 		return outputStr;
@@ -873,6 +945,28 @@ public class MyLanguageParser {
 				outputStr += Translator.translateLogical(operator);
 				outputStr += value2;
 			}
+		}
+		
+		// check if another statement follows
+		if (outputStr.endsWith(",")) {
+			outputStr = outputStr.substring(0, outputStr.length() - 1);
+			
+			outputStr += ";\n\t\t";
+			
+			String line = "";
+			while (true) {
+				String nextToken = getNextToken();
+				if (nextToken == null)
+					break;
+				line += nextToken + " ";
+			}
+
+			this.tokens = tokenizeInput(line);
+			this.currentTokenIndex = 0;
+
+			outputStr += parse();
+
+			outputStr += ";\n\t\t";
 		}
 
 		return outputStr;
